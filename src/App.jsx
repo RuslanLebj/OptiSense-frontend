@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import Layout from './layout/Layout';
-import ContentListPage from './pages/contentListPage/ContentListPage';
+import MediaContentListPage from './pages/mediaContentListPage/MediaContentListPage';
 import CameraListPage from './pages/cameraListPage/CameraListPage';
 import ScreenListPage from './pages/screenListPage/ScreenListPage';
 import { Routes, Route } from 'react-router-dom';
@@ -12,9 +12,9 @@ function App() {
       {/* Определение маршрутов */}
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route path="/contentlist" element={<ContentListPage />} />
-          <Route path="/cameralist" element={<CameraListPage />} />
-          <Route path="/screenlist" element={<ScreenListPage />} />
+          <Route path="/mediacontent" element={<MediaContentListPage />} />
+          <Route path="/camera" element={<CameraListPage />} />
+          <Route path="/screen" element={<ScreenListPage />} />
         </Route>
       </Routes>
     </div>

@@ -6,9 +6,9 @@ import { ViewfinderCircleIcon } from '@heroicons/react/24/outline';
 
 const Sidebar = ({ isOpen }) => {
     const menus = [
-        { name: "Контент", link: "/contentlist", icon: VideoCameraIcon },
-        { name: "Экраны", link: "/screenlist", icon: ComputerDesktopIcon },
-        { name: "Камеры", link: "/cameralist", icon: ViewfinderCircleIcon },
+        { name: "Контент", link: "/mediacontent", icon: VideoCameraIcon },
+        { name: "Экраны", link: "/screen", icon: ComputerDesktopIcon },
+        { name: "Камеры", link: "/camera", icon: ViewfinderCircleIcon },
     ];
     return (
         <div className="flex gap-6">
