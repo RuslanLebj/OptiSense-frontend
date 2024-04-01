@@ -12,14 +12,16 @@ const Layout = () => {
     return (
         <div>
             <Navbar toggleSidebar={toggleSidebar}/>
-            <Sidebar isOpen={isSidebarOpen}/>
-            <main>
-                <div>
-                    <Outlet />
-                </div>
-            </main>
+            <div className="flex">
+                <Sidebar isOpen={isSidebarOpen}/>
+                <main className="flex-1">
+                    <div>
+                        <Outlet />
+                    </div>
+                </main>
+            </div>
         </div>
     )
 }
 
-export default Layout
+export default Layout;

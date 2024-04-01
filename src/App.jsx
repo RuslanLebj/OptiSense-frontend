@@ -1,14 +1,22 @@
 import React from 'react';
 import './App.css';
 import Layout from './layout/Layout';
+import ContentListPage from './pages/contentListPage/ContentListPage';
+import CameraListPage from './pages/cameraListPage/CameraListPage';
+import ScreenListPage from './pages/screenListPage/ScreenListPage';
+import { Routes, Route } from 'react-router-dom';
 
 function App() {
   return (
     <div>
-      <Layout />
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold">Welcome to My App</h1>
-      </div>
+      {/* Определение маршрутов */}
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route path="/contentlist" element={<ContentListPage />} />
+          <Route path="/cameralist" element={<CameraListPage />} />
+          <Route path="/screenlist" element={<ScreenListPage />} />
+        </Route>
+      </Routes>
     </div>
   );
 }
