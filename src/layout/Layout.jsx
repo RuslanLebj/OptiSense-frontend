@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Outlet } from 'react-router-dom';
 import Navbar from './navbar/Navbar';
 import Sidebar from './sidebar/Sidebar';
+import Footer from "./footer/Footer";
 
 const Layout = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -15,11 +16,10 @@ const Layout = () => {
             <div className="flex">
                 <Sidebar isOpen={isSidebarOpen}/>
                 <main className="flex-1">
-                    <div>
                         <Outlet />
-                    </div>
                 </main>
             </div>
+            <Footer />
         </div>
     )
 }

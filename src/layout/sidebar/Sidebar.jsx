@@ -11,9 +11,9 @@ const Sidebar = ({ isOpen }) => {
         { name: "Камеры", link: "/camera", icon: ViewfinderCircleIcon },
     ];
     return (
-        <div className="flex gap-6">
+        <aside className="sticky top-20 h-screen z-10 flex">
             <div
-                className={`bg-white min-h-screen ${isOpen ? "w-60" : "w-20"
+                className={`bg-white ${isOpen ? "w-60" : "w-20"
                     } duration-500 text-black px-4 shadow`}
             >
                 <div className="mt-4 flex flex-col gap-4 relative">
@@ -41,7 +41,7 @@ const Sidebar = ({ isOpen }) => {
                             {/* Всплывающая надпись */}
                             <h2
                                 className={`${isOpen && "hidden"
-                            } absolute left-14 bg-white font-semibold whitespace-pre text-gray-900 rounded-md drop-shadow-lg w-0 overflow-hidden group-hover:px-2 group-hover:py-1 group-hover:w-fit `}
+                            } absolute left-14 bg-white font-semibold whitespace-pre text-gray-900 rounded-md drop-shadow-lg w-0 overflow-hidden group-hover:px-2 group-hover:py-1 group-hover:w-fit bg-opacity-90`}
                             >
                                 {menu?.name}
                             </h2>
@@ -49,7 +49,7 @@ const Sidebar = ({ isOpen }) => {
                     ))}
                 </div>
             </div>
-        </div>
+        </aside>
     );
 };
 

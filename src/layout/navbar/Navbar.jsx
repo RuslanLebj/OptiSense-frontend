@@ -5,7 +5,7 @@ import { PlusCircleIcon } from '@heroicons/react/24/outline'
 
 const Navbar = ({ toggleSidebar }) => {
   return (
-    <header className="border-b md:flex md:items-center md:justify-between p-4 pb-0 shadow-lg md:pb-4">
+    <header className="sticky top-0 z-20 md:h-20 bg-white border-b md:flex md:items-center md:justify-between p-4 pb-0 shadow-md md:pb-4">
       {/* Button for sidebar and Logo text */}
       <nav>
         <ul className="list-reset md:flex md:items-center">
@@ -16,7 +16,7 @@ const Navbar = ({ toggleSidebar }) => {
             </button>
           </li>
           <li>
-            <h1 className="leading-none text-2xl text-grey-darkest ml-5"> {/* Добавляем margin слева для выравнивания */}
+            <h1 className="leading-none text-2xl text-gray-800 font-bold ml-5"> {/* Добавляем margin слева для выравнивания */}
               <a href="#">
                 AdSenseVision
               </a>
@@ -36,7 +36,7 @@ const Navbar = ({ toggleSidebar }) => {
 
       {/* Global navigation */}
       <nav>
-        <ul className="list-reset md:flex md:items-center">
+        <ul className="md:flex md:items-center">
           <li className="md:ml-4">
             <button className="text-gray-500 hover:text-black py-2 px-2 rounded-full transition-colors duration-300 ease-in-out">
               <PlusCircleIcon className="h-7 w-7" />
