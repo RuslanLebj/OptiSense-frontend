@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import PageTitle from '../../components/pageTitle/PageTitle';
 
 const ScreenListPage = () => {
   const [screenList, setScreenList] = useState([]);
@@ -19,11 +20,11 @@ const ScreenListPage = () => {
 
   return (
     <div>
-      <h1>Screen List</h1>
+      <PageTitle title="Экраны для трансляций" />
       <ul>
         {screenList.map(screen => (
           <li key={screen.id}>
-            {screen.name} - {screen.start_time} - {screen.end_time}
+           {screen.name} - {screen.start_time} - {screen.end_time}
           </li>
         ))}
       </ul>

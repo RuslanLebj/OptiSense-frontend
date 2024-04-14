@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import PageTitle from '../../components/pageTitle/PageTitle';
 
 const CameraListPage = () => {
   const [cameraList, setCameraList] = useState([]);
@@ -19,7 +20,7 @@ const CameraListPage = () => {
 
   return (
     <div>
-      <h1>Camera List</h1>
+      <PageTitle title="Камеры для отслеживания вовлеченности" />
       <ul>
         {cameraList.map(camera => (
           <li key={camera.id}>
