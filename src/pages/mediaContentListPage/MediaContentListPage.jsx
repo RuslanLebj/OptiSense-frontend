@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import PageTitle from '../../components/pageTitle/PageTitle';
 import MediaContentCard from '../../components/mediaContentCard/MediaContentCard';
+import { Link } from 'react-router-dom'; 
 
 const MediaContentListPage = () => {
   const [mediaContentList, setMediaContentList] = useState([]);
@@ -25,7 +26,10 @@ const MediaContentListPage = () => {
       <ul>
         {mediaContentList.map(mediaContent => (
           <li key={mediaContent.id}>
-            <MediaContentCard name={mediaContent.name} duration={mediaContent.duration} preview={mediaContent.preview} />
+            {/* Оборачиваем MediaContentCard в Link */}
+            <Link to={`/mediacontent/${mediaContent.id}`}>
+              <MediaContentCard name={mediaContent.name} duration={mediaContent.duration} preview={mediaContent.preview} />
+            </Link>
           </li>
         ))}
       </ul>

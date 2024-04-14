@@ -17,10 +17,9 @@ const Layout = () => {
                 <Sidebar isOpen={isSidebarOpen}/>
                 <main className="flex-1">
                         <Outlet />
-                        <Footer />
-                        
                 </main>
             </div>
+            <Footer />
         </div>
     )
 }
