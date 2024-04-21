@@ -6,7 +6,6 @@ import SmallTitle from '../../components/smallTitle/SmallTitle';
 
 const MediaContentDetailPage = () => {
   const { id } = useParams(); // Извлечение ID из URL
-  const navigate = useNavigate();
   const [mediaContent, setMediaContent] = useState(null);
   const [editName, setEditName] = useState('');
   const [loading, setLoading] = useState(true);
@@ -18,6 +17,7 @@ const MediaContentDetailPage = () => {
       try {
         const response = await axios.get(`http://127.0.0.1:8000/api/mediacontent/${id}/`);
         setMediaContent(response.data);
+        setEditName(response.data.name); // Устанавливаем начальное значение для editName здесь, после загрузки данных
       } catch (err) {
         console.error('Error fetching media content details:', err);
         setError('Failed to load media content details');
@@ -25,6 +25,7 @@ const MediaContentDetailPage = () => {
         setLoading(false);
       }
     };
+
 
     fetchData();
   }, [id]); // Обновление компонента при изменении ID
@@ -54,14 +55,14 @@ const MediaContentDetailPage = () => {
     setEditName(event.target.value);
   };
 
-  //if (loading) return <PageTitle title={`Загрузка...`} />; // Индикатор загрузки
+  // if (loading) return <PageTitle title={`Загрузка...`} />; // Индикатор загрузки
   if (error) return <PageTitle title={`Error: ${error}`} />; // Сообщение об ошибке
 
   return (
-    <div className="container p-4">
-      <div className="flex justify-between items-center mb-4">
+    <div className="w-4/5">
+      <div className="flex justify-between items-center mb-5">
         <PageTitle title={"Сведения о контенте"} />
-        <div>
+        <div className='m-5'>
           <button onClick={handleCancel} className="text-red-600 hover:underline">
             Отменить
           </button>
@@ -70,23 +71,23 @@ const MediaContentDetailPage = () => {
           </button>
         </div>
       </div>
-      <div className="flex justify-between mb-4">
-        <div>
+      <div className="flex justify-between m-5 gap-10">
+        <div className="lg:w-1/2">
           <SmallTitle title={"Название видео:"} />
-          <input
+          <textarea
             type="text"
             value={editName} // Используем состояние editName для значения input
             onChange={handleChangeName}
-            className="text-m mb-2 px-2 py-1 rounded border border-gray-300"
+            className="my-2 p-2 rounded border border-gray-300 w-full"
           />
           <div className="w-full mb-6">
             <SmallTitle title={"Продолжительность видео:"} />
             {mediaContent && (
-              <p className="mb-2 px-2 py-1">{mediaContent.duration}</p>
+              <p className="mb-2 py-1 pl-2">{mediaContent.duration}</p>
             )}
           </div>
         </div>
-        <div className="w-full lg:w-1/2 px-3">
+        <div className="lg:w-1/2">
           {mediaContent && (
             <>
               <img
@@ -100,7 +101,7 @@ const MediaContentDetailPage = () => {
                   href={mediaContent.video}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-500 mb-2 px-2 py-1 hover:text-blue-700 transition duration-300"
+                  className="text-blue-500 mb-2 py-1 pl-2 hover:text-blue-700 transition duration-300"
                 >
                   {mediaContent.video}
                 </a>
