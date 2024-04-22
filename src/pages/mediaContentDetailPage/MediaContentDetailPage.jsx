@@ -8,6 +8,7 @@ const MediaContentDetailPage = () => {
   const { id } = useParams(); // Извлечение ID из URL
   const [mediaContent, setMediaContent] = useState(null);
   const [editName, setEditName] = useState('');
+  const [editDescription, setEditDescription] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -17,7 +18,8 @@ const MediaContentDetailPage = () => {
       try {
         const response = await axios.get(`http://127.0.0.1:8000/api/mediacontent/${id}/`);
         setMediaContent(response.data);
-        setEditName(response.data.name); // Устанавливаем начальное значение для editName здесь, после загрузки данных
+        setEditName(response.data.name); // Устанавливаем начальное значение для editName, после загрузки данных
+        setEditDescription(response.data.description);
       } catch (err) {
         console.error('Error fetching media content details:', err);
         setError('Failed to load media content details');
@@ -35,6 +37,7 @@ const MediaContentDetailPage = () => {
       const response = await axios.put(`http://127.0.0.1:8000/api/mediacontent/${id}/`, {
         ...mediaContent,
         name: editName,
+        description: editDescription,
       });
       setMediaContent(response.data);
       // Additional success handling
@@ -46,6 +49,7 @@ const MediaContentDetailPage = () => {
 
   const handleCancel = () => {
     setEditName(mediaContent.name); // Revert changes
+    setEditDescription(mediaContent.description)
     // If you want to navigate away on cancel, use the navigate function:
     // navigate(-1); // This will take the user back to the previous page
   };
@@ -53,6 +57,11 @@ const MediaContentDetailPage = () => {
   // Функция для обработки изменения названия
   const handleChangeName = (event) => {
     setEditName(event.target.value);
+  };
+
+  // Функция для обработки изменения описания
+  const handleChangeDescription = (event) => {
+    setEditDescription(event.target.value);
   };
 
   // if (loading) return <PageTitle title={`Загрузка...`} />; // Индикатор загрузки
@@ -73,17 +82,34 @@ const MediaContentDetailPage = () => {
       </div>
       <div className="flex justify-between m-5 gap-10">
         <div className="lg:w-1/2">
-          <SmallTitle title={"Название видео:"} />
-          <textarea
-            type="text"
-            value={editName} // Используем состояние editName для значения input
-            onChange={handleChangeName}
-            className="my-2 p-2 rounded border border-gray-300 w-full"
-          />
-          <div className="w-full mb-6">
+          <div className='mb-3'>
+            <SmallTitle title={"Название видео:"} />
+            <textarea
+              type="text"
+              value={editName} // Используем состояние editName для значения input
+              onChange={handleChangeName}
+              className="p-2 rounded border border-gray-300 w-full"
+            />
+          </div>
+          <div className='mb-3'>
+            <SmallTitle title={"Описание видео:"} />
+            <textarea
+              type="text"
+              value={editDescription} 
+              onChange={handleChangeDescription}
+              className="p-2 pb-12 rounded border border-gray-300 w-full"
+            />
+          </div>
+          <div className="mb-3">
             <SmallTitle title={"Продолжительность видео:"} />
             {mediaContent && (
               <p className="mb-2 py-1 pl-2">{mediaContent.duration}</p>
+            )}
+          </div>
+          <div className="mb-3">
+            <SmallTitle title={"Дата загрузки:"} />
+            {mediaContent && (
+              <p className="mb-2 py-1 pl-2">{mediaContent.upload_date}</p>
             )}
           </div>
         </div>
