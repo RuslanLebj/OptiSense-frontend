@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import PageTitle from '../../components/pageTitle/PageTitle';
 import SmallTitle from '../../components/smallTitle/SmallTitle';
+import StatisticsDashboard from '../../components/statisticsDashboard/StatisticsDashboard';
 
 const MediaContentDetailPage = () => {
   const { id } = useParams(); // Извлечение ID из URL
@@ -68,6 +69,7 @@ const MediaContentDetailPage = () => {
   if (error) return <PageTitle title={`Error: ${error}`} />; // Сообщение об ошибке
 
   return (
+    // !РАЗБИТЬ НА КОМПОНЕНТЫ!
     <div className="w-4/5">
       <div className="flex justify-between items-center mb-5">
         <PageTitle title={"Сведения о контенте"} />
@@ -88,16 +90,16 @@ const MediaContentDetailPage = () => {
               type="text"
               value={editName} // Используем состояние editName для значения input
               onChange={handleChangeName}
-              className="p-2 rounded border border-gray-300 w-full"
+              className="bg-grey-lightest border-2 p-2 rounded-lg shadow-inner w-full"
             />
           </div>
           <div className='mb-3'>
             <SmallTitle title={"Описание видео:"} />
             <textarea
               type="text"
-              value={editDescription} 
+              value={editDescription}
               onChange={handleChangeDescription}
-              className="p-2 pb-12 rounded border border-gray-300 w-full"
+              className="bg-grey-lightest border-2 p-2 rounded-lg shadow-inner pb-12 w-full"
             />
           </div>
           <div className="mb-3">
@@ -135,6 +137,9 @@ const MediaContentDetailPage = () => {
             </>
           )}
         </div>
+      </div>
+      <div className="flex justify-between m-5 gap-10">
+        <StatisticsDashboard mediaContentId={id} />
       </div>
     </div>
   );

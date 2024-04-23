@@ -28,7 +28,7 @@ const MediaContentListPage = () => {
           <li key={mediaContent.id}>
             {/* Оборачиваем MediaContentCard в Link */}
             <Link to={`/mediacontent/${mediaContent.id}`}>
-              <MediaContentCard name={mediaContent.name} duration={mediaContent.duration} preview={mediaContent.preview} />
+              <MediaContentCard mediacontent={mediaContent} />
             </Link>
           </li>
         ))}
