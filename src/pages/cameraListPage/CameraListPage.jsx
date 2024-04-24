@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import PageTitle from '../../components/pageTitle/PageTitle';
+import CameraCard from '../../components/cameraCard/CameraCard';
 
 const CameraListPage = () => {
   const [cameraList, setCameraList] = useState([]);
@@ -24,7 +25,7 @@ const CameraListPage = () => {
       <ul>
         {cameraList.map(camera => (
           <li key={camera.id}>
-            {camera.name} - {camera.address} - {camera.connection_login} - {camera.connection_password}
+            <CameraCard camera={camera} />
           </li>
         ))}
       </ul>
