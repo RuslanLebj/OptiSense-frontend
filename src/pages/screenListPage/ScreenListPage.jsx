@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import PageTitle from '../../components/pageTitle/PageTitle';
+import ScreenCard from '../../components/screenCard/ScreenCard';
 
 const ScreenListPage = () => {
   const [screenList, setScreenList] = useState([]);
@@ -24,7 +25,7 @@ const ScreenListPage = () => {
       <ul>
         {screenList.map(screen => (
           <li key={screen.id}>
-           {screen.name} - {screen.start_time} - {screen.end_time}
+           <ScreenCard screen={screen} />
           </li>
         ))}
       </ul>
