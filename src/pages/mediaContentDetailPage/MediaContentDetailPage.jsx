@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
-import PageTitle from '../../components/pageTitle/PageTitle';
-import SmallTitle from '../../components/smallTitle/SmallTitle';
-import StatisticsDashboard from '../../components/statisticsDashboard/StatisticsDashboard';
+import PageTitle from '../../components/titles/pageTitle/PageTitle';
+import SmallTitle from '../../components/titles/smallTitle/SmallTitle';
+import StatisticsDashboard from '../../components/dashboards/statisticsDashboard/StatisticsDashboard';
+import DetailPageContainer from '../../components/containers/detailPageContainer/DetailPageContainer';
+import FlexSpacerContainer from '../../components/containers/flexSpacerContainer/FlexSpacerContainer';
+import HalfWidthContainer from '../../components/containers/halfWidthContainer/HalfWidthContainer';
+import DetailPageElementContainer from '../../components/containers/detailPageElementContainer/DetailPageElementContainer';
 
 const MediaContentDetailPage = () => {
   const { id } = useParams(); // Извлечение ID из URL
@@ -70,10 +74,10 @@ const MediaContentDetailPage = () => {
 
   return (
     // !РАЗБИТЬ НА КОМПОНЕНТЫ!
-    <div className="w-4/5">
-      <div className="flex justify-between items-center mb-5">
+    <DetailPageContainer>
+      <FlexSpacerContainer>
         <PageTitle title={"Сведения о контенте"} />
-        <div className='m-5'>
+        <div>
           <button onClick={handleCancel} className="text-red-600 hover:underline">
             Отменить
           </button>
@@ -81,10 +85,10 @@ const MediaContentDetailPage = () => {
             Сохранить
           </button>
         </div>
-      </div>
-      <div className="flex justify-between m-5 gap-10">
-        <div className="lg:w-1/2">
-          <div className='mb-3'>
+      </FlexSpacerContainer>
+      <FlexSpacerContainer>
+        <HalfWidthContainer>
+          <DetailPageElementContainer>
             <SmallTitle title={"Название видео:"} />
             <textarea
               type="text"
@@ -92,8 +96,8 @@ const MediaContentDetailPage = () => {
               onChange={handleChangeName}
               className="bg-grey-lightest border-2 p-2 rounded-lg shadow-inner w-full"
             />
-          </div>
-          <div className='mb-3'>
+          </DetailPageElementContainer>
+          <DetailPageElementContainer>
             <SmallTitle title={"Описание видео:"} />
             <textarea
               type="text"
@@ -101,21 +105,21 @@ const MediaContentDetailPage = () => {
               onChange={handleChangeDescription}
               className="bg-grey-lightest border-2 p-2 rounded-lg shadow-inner pb-12 w-full"
             />
-          </div>
-          <div className="mb-3">
+          </DetailPageElementContainer>
+          <DetailPageElementContainer>
             <SmallTitle title={"Продолжительность видео:"} />
             {mediaContent && (
               <p className="mb-2 py-1 pl-2">{mediaContent.duration}</p>
             )}
-          </div>
-          <div className="mb-3">
+          </DetailPageElementContainer>
+          <DetailPageElementContainer>
             <SmallTitle title={"Дата загрузки:"} />
             {mediaContent && (
               <p className="mb-2 py-1 pl-2">{mediaContent.upload_date}</p>
             )}
-          </div>
-        </div>
-        <div className="lg:w-1/2">
+          </DetailPageElementContainer>
+        </HalfWidthContainer>
+        <HalfWidthContainer>
           {mediaContent && (
             <>
               <img
@@ -136,12 +140,12 @@ const MediaContentDetailPage = () => {
               )}
             </>
           )}
-        </div>
-      </div>
-      <div className="flex justify-between m-5 gap-10">
+        </HalfWidthContainer>
+      </FlexSpacerContainer>
+      <FlexSpacerContainer>
         <StatisticsDashboard mediaContentId={id} />
-      </div>
-    </div>
+      </FlexSpacerContainer>
+    </DetailPageContainer>
   );
 };
 

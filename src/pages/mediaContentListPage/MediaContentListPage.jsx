@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import PageTitle from '../../components/pageTitle/PageTitle';
-import MediaContentCard from '../../components/mediaContentCard/MediaContentCard';
+import PageTitle from '../../components/titles/pageTitle/PageTitle';
+import MediaContentCard from '../../components/cards/mediaContentCard/MediaContentCard';
 import { Link } from 'react-router-dom'; 
 
 const MediaContentListPage = () => {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import PageTitle from '../../components/pageTitle/PageTitle';
-import CameraCard from '../../components/cameraCard/CameraCard';
+import PageTitle from '../../components/titles/pageTitle/PageTitle';
+import CameraCard from '../../components/cards/cameraCard/CameraCard';
 
 const CameraListPage = () => {
   const [cameraList, setCameraList] = useState([]);

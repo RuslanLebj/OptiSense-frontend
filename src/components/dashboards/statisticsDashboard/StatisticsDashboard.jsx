@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import StatisticsCard from '../statisticsCard/StatisticsCard';
-import MiddleTitle from '../middleTitle/MiddleTitle';
+import StatisticsCard from '../../cards/statisticsCard/StatisticsCard';
+import MiddleTitle from '../../titles/middleTitle/MiddleTitle';
+import HalfWidthContainer from '../../containers/halfWidthContainer/HalfWidthContainer';
 
 const StatisticsDashboard = ({ mediaContentId }) => {
     const [detailedStats, setDetailedStats] = useState(null);
@@ -39,7 +40,7 @@ const StatisticsDashboard = ({ mediaContentId }) => {
 
     return (
         <>
-            <div className="lg:w-1/2">
+            <HalfWidthContainer>
                 <MiddleTitle title={"Общая статистика"} />
                 {aggregateStats && aggregateStats.total_viewing_time && (
                     <MiddleTitle title={`Общее время просмотра: ${aggregateStats.total_viewing_time}`} />
@@ -47,15 +48,15 @@ const StatisticsDashboard = ({ mediaContentId }) => {
                 {aggregateStats && aggregateStats.max_viewers_count && (
                     <MiddleTitle title={`Максимальное число зрителей: ${aggregateStats.max_viewers_count}`} />
                 )}
-            </div>
-            <div className="lg:w-1/2">
+            </HalfWidthContainer>
+            <HalfWidthContainer>
                 <MiddleTitle title={"Статистика по каждому экрану"} />
                 {detailedStats && detailedStats.map(stat => (
                     <div key={stat.id}>
                         <StatisticsCard stat={stat} />
                     </div>
                 ))}
-            </div>
+            </HalfWidthContainer>
         </>
     );
 };

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import PageTitle from '../../components/pageTitle/PageTitle';
-import ScreenCard from '../../components/screenCard/ScreenCard';
+import PageTitle from '../../components/titles/pageTitle/PageTitle';
+import ScreenCard from '../../components/cards/screenCard/ScreenCard';
 
 const ScreenListPage = () => {
   const [screenList, setScreenList] = useState([]);
