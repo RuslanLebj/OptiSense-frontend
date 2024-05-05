@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import PageTitle from '../../components/titles/pageTitle/PageTitle';
 import MediaContentCard from '../../components/cards/mediaContentCard/MediaContentCard';
-import { Link } from 'react-router-dom'; 
+import FlexSpacerContainer from '../../components/containers/flexSpacerContainer/FlexSpacerContainer';
+import { Link } from 'react-router-dom';
 
 const MediaContentListPage = () => {
   const [mediaContentList, setMediaContentList] = useState([]);
@@ -22,7 +23,9 @@ const MediaContentListPage = () => {
 
   return (
     <div>
-      <PageTitle title="Транслируемый медиаконтент" />
+      <FlexSpacerContainer>
+        <PageTitle title="Транслируемый медиаконтент" />
+      </FlexSpacerContainer>
       <ul>
         {mediaContentList.map(mediaContent => (
           <li key={mediaContent.id}>

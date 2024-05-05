@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import PageTitle from '../../components/titles/pageTitle/PageTitle';
 import ScreenCard from '../../components/cards/screenCard/ScreenCard';
+import FlexSpacerContainer from '../../components/containers/flexSpacerContainer/FlexSpacerContainer';
 
 const ScreenListPage = () => {
   const [screenList, setScreenList] = useState([]);
@@ -21,11 +22,13 @@ const ScreenListPage = () => {
 
   return (
     <div>
-      <PageTitle title="Экраны для трансляций" />
+      <FlexSpacerContainer>
+        <PageTitle title="Экраны для трансляций" />
+      </FlexSpacerContainer>
       <ul>
         {screenList.map(screen => (
           <li key={screen.id}>
-           <ScreenCard screen={screen} />
+            <ScreenCard screen={screen} />
           </li>
         ))}
       </ul>
