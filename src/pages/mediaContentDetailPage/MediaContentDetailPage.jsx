@@ -11,9 +11,8 @@ import DetailPageElementContainer from '../../components/containers/detailPageEl
 
 const MediaContentDetailPage = () => {
   const { id } = useParams(); // Извлечение ID из URL
-  const [mediaContent, setMediaContent] = useState(null);
-  const [editName, setEditName] = useState('');
-  const [editDescription, setEditDescription] = useState('');
+  const [mediaContent, setMediaContent] = useState({ name: '', description: '', duration: '', upload_date: '', preview: '', video: '' });
+  const [formData, setFormData] = useState({ name: '', description: '' });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -22,9 +21,11 @@ const MediaContentDetailPage = () => {
       setLoading(true);
       try {
         const response = await axios.get(`http://127.0.0.1:8000/api/mediacontent/${id}/`);
-        setMediaContent(response.data);
-        setEditName(response.data.name); // Устанавливаем начальное значение для editName, после загрузки данных
-        setEditDescription(response.data.description);
+        setMediaContent(response.data); // Устанавливаем значение mediacontent
+        setFormData({
+          name: response.data.name,
+          description: response.data.description
+        }); // Устанавливаем начальное значение формы
       } catch (err) {
         console.error('Error fetching media content details:', err);
         setError('Failed to load media content details');
@@ -32,48 +33,39 @@ const MediaContentDetailPage = () => {
         setLoading(false);
       }
     };
-
-
     fetchData();
-  }, [id]); // Обновление компонента при изменении ID
+  }, [id]);
 
+  // Обработчик сохранения изменений
   const handleSave = async () => {
     try {
-      const response = await axios.put(`http://127.0.0.1:8000/api/mediacontent/${id}/`, {
-        ...mediaContent,
-        name: editName,
-        description: editDescription,
-      });
+      const response = await axios.put(`http://127.0.0.1:8000/api/mediacontent/${id}/`, formData);
       setMediaContent(response.data);
-      // Additional success handling
     } catch (err) {
       console.error('Error saving media content details:', err);
-      // Additional error handling
     }
   };
 
+  // Обработчик отмены изменений
   const handleCancel = () => {
-    setEditName(mediaContent.name); // Revert changes
-    setEditDescription(mediaContent.description)
-    // If you want to navigate away on cancel, use the navigate function:
-    // navigate(-1); // This will take the user back to the previous page
+    // Отмена изменений и восстановление изначальных данных
+    setFormData({
+      name: mediaContent.name,
+      description: mediaContent.description
+    });
   };
 
-  // Функция для обработки изменения названия
-  const handleChangeName = (event) => {
-    setEditName(event.target.value);
+  // Обработчик изменения значений формы
+  const handleChange = (event) => {
+    // Обработка изменений в полях ввода
+    const { name, value } = event.target;
+    setFormData(prevState => ({ ...prevState, [name]: value }));
   };
 
-  // Функция для обработки изменения описания
-  const handleChangeDescription = (event) => {
-    setEditDescription(event.target.value);
-  };
-
-  // if (loading) return <PageTitle title={`Загрузка...`} />; // Индикатор загрузки
-  if (error) return <PageTitle title={`Error: ${error}`} />; // Сообщение об ошибке
+  // if (loading) return <PageTitle title={`Загрузка...`} />;
+  if (error) return <PageTitle title={`Error: ${error}`} />;
 
   return (
-    // !РАЗБИТЬ НА КОМПОНЕНТЫ!
     <DetailPageContainer>
       <FlexSpacerContainer>
         <PageTitle title={"Сведения о контенте"} />
@@ -91,55 +83,45 @@ const MediaContentDetailPage = () => {
           <DetailPageElementContainer>
             <SmallTitle title={"Название видео:"} />
             <textarea
-              type="text"
-              value={editName} // Используем состояние editName для значения input
-              onChange={handleChangeName}
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
               className="bg-grey-lightest border-2 p-2 rounded-lg shadow-inner w-full"
             />
           </DetailPageElementContainer>
           <DetailPageElementContainer>
             <SmallTitle title={"Описание видео:"} />
             <textarea
-              type="text"
-              value={editDescription}
-              onChange={handleChangeDescription}
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
               className="bg-grey-lightest border-2 p-2 rounded-lg shadow-inner pb-12 w-full"
             />
           </DetailPageElementContainer>
           <DetailPageElementContainer>
             <SmallTitle title={"Продолжительность видео:"} />
-            {mediaContent && (
-              <p className="mb-2 py-1 pl-2">{mediaContent.duration}</p>
-            )}
+            <p className="mb-2 py-1 pl-2">{mediaContent.duration}</p>
           </DetailPageElementContainer>
           <DetailPageElementContainer>
             <SmallTitle title={"Дата загрузки:"} />
-            {mediaContent && (
-              <p className="mb-2 py-1 pl-2">{mediaContent.upload_date}</p>
-            )}
+            <p className="mb-2 py-1 pl-2">{mediaContent.upload_date}</p>
           </DetailPageElementContainer>
         </HalfWidthContainer>
         <HalfWidthContainer>
-          {mediaContent && (
-            <>
-              <img
-                className="rounded shadow-lg mb-4"
-                src={mediaContent.preview}
-                alt={mediaContent.name}
-              />
-              <SmallTitle title={"Ссылка на видео:"} />
-              {mediaContent.video && (
-                <a
-                  href={mediaContent.video}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-500 mb-2 py-1 pl-2 hover:text-blue-700 transition duration-300"
-                >
-                  {mediaContent.video}
-                </a>
-              )}
-            </>
-          )}
+          <img
+            className="rounded shadow-lg mb-4"
+            src={mediaContent.preview}
+            alt={mediaContent.name}
+          />
+          <SmallTitle title={"Ссылка на видео:"} />
+          <a
+            href={mediaContent.video}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-500 mb-2 py-1 pl-2 hover:text-blue-700 transition duration-300"
+          >
+            {mediaContent.video}
+          </a>
         </HalfWidthContainer>
       </FlexSpacerContainer>
       <FlexSpacerContainer>
