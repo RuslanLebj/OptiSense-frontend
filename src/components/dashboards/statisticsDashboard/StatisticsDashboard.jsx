@@ -38,6 +38,7 @@ const StatisticsDashboard = ({ mediaContentId }) => {
     // if (loading) return <PageTitle title={`Загрузка...`} />; // Индикатор загрузки
     if (error) return <PageTitle title={`Error: ${error}`} />; // Сообщение об ошибке
 
+    // Используем в компоненте условный рендеринг для избежания вывода результатов со значениями полей null/undefined, т.к. статистики по контенту может не быть.
     return (
         <>
             <HalfWidthContainer>
