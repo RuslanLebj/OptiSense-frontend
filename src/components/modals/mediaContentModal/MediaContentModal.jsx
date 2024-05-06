@@ -31,7 +31,7 @@ const MediaContentModal = ({ isOpen, close }) => {
   return (
     <Modal isOpen={isOpen} close={close}>
       <div className="space-y-4">
-        <h2 className="text-lg font-bold">Создание нового медиа-контента</h2>
+        <h2 className="text-lg font-bold">Загрузка медиа-контента</h2>
         <form onSubmit={handleSubmit}>
           <input type="file" accept="video/*" onChange={handleFileChange} className="mb-2" />
           {file && <p>Выбран файл: {file.name}</p>}

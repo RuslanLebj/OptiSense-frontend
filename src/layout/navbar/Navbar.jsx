@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Bars3Icon, UserCircleIcon, PlusCircleIcon } from '@heroicons/react/24/outline'
+import IconButton from '../../components/buttons/IconButton';
 
 
 const Navbar = ({ toggleSidebar, handleAddModalButtonClick }) => {
@@ -10,10 +11,9 @@ const Navbar = ({ toggleSidebar, handleAddModalButtonClick }) => {
       <nav>
         <ul className="list-reset md:flex md:items-center">
           <li>
-            <button onClick={toggleSidebar}
-              className="text-gray-500 hover:text-black py-2 px-2 rounded-full transition-colors duration-300 ease-in-out">
+            <IconButton onClick={toggleSidebar}>
               <Bars3Icon className="h-7 w-7" />
-            </button>
+            </IconButton>
           </li>
           <li>
             <h1 className="leading-none text-2xl text-gray-800 font-bold ml-5"> {/* Добавляем margin слева для выравнивания */}
@@ -38,17 +38,15 @@ const Navbar = ({ toggleSidebar, handleAddModalButtonClick }) => {
       <nav>
         <ul className="md:flex md:items-center">
           <li className="md:ml-4">
-            <button
-              onClick={handleAddModalButtonClick}
-              className="text-gray-500 hover:text-black py-2 px-2 rounded-full transition-colors duration-300 ease-in-out">
+            <IconButton
+              onClick={handleAddModalButtonClick}>
               <PlusCircleIcon className="h-7 w-7" />
-            </button>
+            </IconButton>
           </li>
           <li className="md:ml-4">
-            <button
-              className="text-gray-500 hover:text-black py-2 px-2 rounded-full transition-colors duration-300 ease-in-out">
+            <IconButton>
               <UserCircleIcon className="h-7 w-7" />
-            </button>
+            </IconButton>
           </li>
         </ul>
       </nav>
