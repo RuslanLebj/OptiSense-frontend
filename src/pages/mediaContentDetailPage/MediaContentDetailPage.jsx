@@ -8,6 +8,16 @@ import DetailPageContainer from '../../components/containers/detailPageContainer
 import FlexSpacerContainer from '../../components/containers/flexSpacerContainer/FlexSpacerContainer';
 import HalfWidthContainer from '../../components/containers/halfWidthContainer/HalfWidthContainer';
 import DetailPageElementContainer from '../../components/containers/detailPageElementContainer/DetailPageElementContainer';
+import AcceptButton from '../../components/buttons/AcceptButton';
+import CancelButton from '../../components/buttons/CancelButton';
+import IconButton from '../../components/buttons/IconButton';
+import { EllipsisVerticalIcon } from '@heroicons/react/24/outline'
+import ButtonsContainer from '../../components/containers/buttonsContainer/ButtonsContainer';
+import DropdownMenu from '../../components/dropdownMenu/DropdownMenu';
+import DropdownMenuButton from '../../components/dropdownMenu/DropdownMenuButton';
+import { Link } from 'react-router-dom';
+import DropdownMenuContainer from '../../components/dropdownMenu/DropdownMenuContiner';
+
 
 const MediaContentDetailPage = () => {
   const { id } = useParams(); // Извлечение ID из URL
@@ -15,6 +25,10 @@ const MediaContentDetailPage = () => {
   const [formData, setFormData] = useState({ name: '', description: '' });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  // Dropdown menu
+  const [isOpen, setIsOpen] = useState(false);
+  const toggleDropdown = () => setIsOpen(!isOpen);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -66,68 +80,92 @@ const MediaContentDetailPage = () => {
   if (error) return <PageTitle title={`Error: ${error}`} />;
 
   return (
-    <DetailPageContainer>
-      <FlexSpacerContainer>
-        <PageTitle title={"Сведения о контенте"} />
-        <div>
-          <button onClick={handleCancel} className="text-red-600 hover:underline">
-            Отменить
-          </button>
-          <button onClick={handleSave} className="ml-2 text-green-600 hover:underline">
-            Сохранить
-          </button>
-        </div>
-      </FlexSpacerContainer>
-      <FlexSpacerContainer>
-        <HalfWidthContainer>
-          <DetailPageElementContainer>
-            <SmallTitle title={"Название видео:"} />
-            <textarea
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              className="bg-grey-lightest border-2 p-2 rounded-lg shadow-inner w-full"
+    <>
+      <DetailPageContainer>
+        <FlexSpacerContainer>
+          <PageTitle title={"Сведения о контенте"} />
+          <ButtonsContainer>
+            <CancelButton onClick={handleCancel}>
+              Отменить
+            </CancelButton>
+            <AcceptButton onClick={handleSave}>
+              Сохранить
+            </AcceptButton>
+            <DropdownMenuContainer>
+              <IconButton onClick={toggleDropdown}>
+                <EllipsisVerticalIcon className="h-6 w-6" />
+              </IconButton>
+              <DropdownMenu isOpen={isOpen}>
+                <DropdownMenuButton>
+                  <Link to="#">
+                    Удалить
+                  </Link>
+                </DropdownMenuButton>
+                <DropdownMenuButton>
+                  <Link to="#">
+                    Скачать видео
+                  </Link>
+                </DropdownMenuButton>
+                <DropdownMenuButton>
+                  <Link to="#">
+                    Скачать превью
+                  </Link>
+                </DropdownMenuButton>
+              </DropdownMenu>
+            </DropdownMenuContainer>
+          </ButtonsContainer>
+        </FlexSpacerContainer>
+        <FlexSpacerContainer>
+          <HalfWidthContainer>
+            <DetailPageElementContainer>
+              <SmallTitle title={"Название видео:"} />
+              <textarea
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                className="bg-grey-lightest border-2 p-2 rounded-lg shadow-inner w-full"
+              />
+            </DetailPageElementContainer>
+            <DetailPageElementContainer>
+              <SmallTitle title={"Описание видео:"} />
+              <textarea
+                name="description"
+                value={formData.description}
+                onChange={handleChange}
+                className="bg-grey-lightest border-2 p-2 rounded-lg shadow-inner pb-12 w-full"
+              />
+            </DetailPageElementContainer>
+            <DetailPageElementContainer>
+              <SmallTitle title={"Продолжительность видео:"} />
+              <p className="mb-2 py-1 pl-2">{mediaContent.duration}</p>
+            </DetailPageElementContainer>
+            <DetailPageElementContainer>
+              <SmallTitle title={"Дата загрузки:"} />
+              <p className="mb-2 py-1 pl-2">{mediaContent.upload_date}</p>
+            </DetailPageElementContainer>
+          </HalfWidthContainer>
+          <HalfWidthContainer>
+            <img
+              className="rounded shadow-lg mb-4"
+              src={mediaContent.preview}
+              alt={mediaContent.name}
             />
-          </DetailPageElementContainer>
-          <DetailPageElementContainer>
-            <SmallTitle title={"Описание видео:"} />
-            <textarea
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              className="bg-grey-lightest border-2 p-2 rounded-lg shadow-inner pb-12 w-full"
-            />
-          </DetailPageElementContainer>
-          <DetailPageElementContainer>
-            <SmallTitle title={"Продолжительность видео:"} />
-            <p className="mb-2 py-1 pl-2">{mediaContent.duration}</p>
-          </DetailPageElementContainer>
-          <DetailPageElementContainer>
-            <SmallTitle title={"Дата загрузки:"} />
-            <p className="mb-2 py-1 pl-2">{mediaContent.upload_date}</p>
-          </DetailPageElementContainer>
-        </HalfWidthContainer>
-        <HalfWidthContainer>
-          <img
-            className="rounded shadow-lg mb-4"
-            src={mediaContent.preview}
-            alt={mediaContent.name}
-          />
-          <SmallTitle title={"Ссылка на видео:"} />
-          <a
-            href={mediaContent.video}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-500 mb-2 py-1 pl-2 hover:text-blue-700 transition duration-300"
-          >
-            {mediaContent.video}
-          </a>
-        </HalfWidthContainer>
-      </FlexSpacerContainer>
-      <FlexSpacerContainer>
-        <StatisticsDashboard mediaContentId={id} />
-      </FlexSpacerContainer>
-    </DetailPageContainer>
+            <SmallTitle title={"Ссылка на видео:"} />
+            <a
+              href={mediaContent.video}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500 mb-2 py-1 pl-2 hover:text-blue-700 transition duration-300"
+            >
+              {mediaContent.video}
+            </a>
+          </HalfWidthContainer>
+        </FlexSpacerContainer>
+        <FlexSpacerContainer>
+          <StatisticsDashboard mediaContentId={id} />
+        </FlexSpacerContainer>
+      </DetailPageContainer>
+    </>
   );
 };
 
