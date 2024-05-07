@@ -1,11 +1,9 @@
 import React from 'react';
 
 const MiddleTitle = ({ title }) => {
-    return (
-      <div className="m-5">
-        <h3 className="text-xl text-gray-800 font-semibold">{title}</h3>
-      </div>
-    );
-  };
+  return (
+    <h3 className="text-xl text-gray-800 font-semibold">{title}</h3>
+  );
+};
 
 export default MiddleTitle;
