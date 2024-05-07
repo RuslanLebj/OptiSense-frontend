@@ -43,6 +43,9 @@ const StatisticsDashboard = ({ mediaContentId }) => {
         <>
             <HalfWidthContainer>
                 <MiddleTitle title={"Общая статистика"} />
+                {aggregateStats && aggregateStats.show_count && (
+                    <MiddleTitle title={`Число показов: ${aggregateStats.show_count}`} />
+                )}
                 {aggregateStats && aggregateStats.total_viewing_time && (
                     <MiddleTitle title={`Общее время просмотра: ${aggregateStats.total_viewing_time}`} />
                 )}
