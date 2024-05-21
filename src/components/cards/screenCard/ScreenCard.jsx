@@ -14,6 +14,14 @@ const ScreenCard = ({ screen }) => {
                     {screen.start_time} - {screen.end_time}
                 </p>
             </div>
+            <div className="flex items-center lg:w-1/2">
+                <p className="text-lg overflow-hidden overflow-ellipsis whitespace-nowrap max-w-[320px]">
+                    {screen.update_date
+                        ? screen.update_date
+                        : "-------------"
+                    }
+                </p>
+            </div>
         </div>
     );
 };
