@@ -111,11 +111,6 @@ const MediaContentDetailPage = () => {
                     Скачать превью
                   </Link>
                 </DropdownMenuButton>
-                <DropdownMenuButton>
-                  <Link to="#">
-                    Полное расписание
-                  </Link>
-                </DropdownMenuButton>
               </DropdownMenu>
             </DropdownMenuContainer>
           </ButtonsContainer>
