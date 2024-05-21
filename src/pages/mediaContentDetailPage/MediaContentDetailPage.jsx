@@ -77,7 +77,7 @@ const MediaContentDetailPage = () => {
   };
 
   // if (loading) return <PageTitle title={`Загрузка...`} />;
-  if (error) return <PageTitle title={`Error: ${error}`} />;
+  if (error) return <PageTitle title={`Error: ${error}`}/>;
 
   return (
     <>
@@ -109,6 +109,11 @@ const MediaContentDetailPage = () => {
                 <DropdownMenuButton>
                   <Link to="#">
                     Скачать превью
+                  </Link>
+                </DropdownMenuButton>
+                <DropdownMenuButton>
+                  <Link to="#">
+                    Полное расписание
                   </Link>
                 </DropdownMenuButton>
               </DropdownMenu>

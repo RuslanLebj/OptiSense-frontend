@@ -5,6 +5,7 @@ import MediaContentListPage from './pages/mediaContentListPage/MediaContentListP
 import MediaContentDetailPage from './pages/mediaContentDetailPage/MediaContentDetailPage';
 import CameraListPage from './pages/cameraListPage/CameraListPage';
 import ScreenListPage from './pages/screenListPage/ScreenListPage';
+import SchedulePage from "./pages/schedulePage/ShedulePage.jsx";
 import { Routes, Route } from 'react-router-dom';
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
           <Route path="/mediacontent/:id" element={<MediaContentDetailPage />} /> 
           <Route path="/camera" element={<CameraListPage />} />
           <Route path="/screen" element={<ScreenListPage />} />
+          <Route path="/screen/:id/schedule" element={<SchedulePage />} />
         </Route>
       </Routes>
     </div>
