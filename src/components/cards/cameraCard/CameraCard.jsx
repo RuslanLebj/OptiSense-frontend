@@ -13,6 +13,9 @@ const CameraCard = ({ camera }) => {
             </div>
             <div className="flex justify-between gap-5 lg:w-1/2">
                 <p className="text-sm font-semibold overflow-hidden overflow-ellipsis whitespace-nowrap max-w-[320px]">
+                    {camera.location_address}
+                </p>
+                <p className="text-sm font-semibold overflow-hidden overflow-ellipsis whitespace-nowrap max-w-[320px]">
                     {camera.address}
                 </p>
                 <p className="text-sm font-semibold overflow-hidden overflow-ellipsis whitespace-nowrap max-w-[320px]">
