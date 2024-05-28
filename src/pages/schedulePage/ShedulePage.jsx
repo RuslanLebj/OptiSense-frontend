@@ -5,7 +5,7 @@ import PageTitle from "../../components/titles/pageTitle/PageTitle.jsx";
 
 const SchedulePage = () => {
     const {id} = useParams(); // Извлечение ID из URL
-    const [schedule, setSchedule] = useState([]);
+    const [schedule, setSchedule] = useState({ id: '', start_time: '', end_time: '', media_content_id: '', media_content_name: '', screen_id: '', screen_name: '' });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
