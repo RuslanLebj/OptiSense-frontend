@@ -3,6 +3,7 @@ import axios from 'axios';
 import StatisticsCard from '../../cards/statisticsCard/StatisticsCard';
 import MiddleTitle from '../../titles/middleTitle/MiddleTitle';
 import HalfWidthContainer from '../../containers/halfWidthContainer/HalfWidthContainer';
+import PageTitle from "../../titles/pageTitle/PageTitle.jsx";
 
 const StatisticsDashboard = ({ mediaContentId }) => {
     const [detailedStats, setDetailedStats] = useState(null);
