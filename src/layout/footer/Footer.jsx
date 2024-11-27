@@ -9,7 +9,7 @@ const Footer = () => {
       <div
         className="bg-neutral-100 p-4 text-center text-neutral-700">
         © 2024 Copyright: 
-        <a className="text-neutral-800"> AdSenseVision</a>
+        <a className="text-neutral-800"> OptiSense</a>
       </div>
     </footer>
   );

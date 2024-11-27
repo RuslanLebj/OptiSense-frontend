@@ -1,14 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { VideoCameraIcon } from '@heroicons/react/24/outline';
-import { ComputerDesktopIcon } from '@heroicons/react/24/outline';
-import { ViewfinderCircleIcon } from '@heroicons/react/24/outline';
+import { VideoCameraIcon, ComputerDesktopIcon, ChartBarSquareIcon} from '@heroicons/react/24/outline';
 
 const Sidebar = ({ isOpen }) => {
     const menus = [
-        { name: "Контент", link: "/mediacontent", icon: VideoCameraIcon },
-        { name: "Экраны", link: "/screen", icon: ComputerDesktopIcon },
-        { name: "Камеры", link: "/camera", icon: ViewfinderCircleIcon },
+        { name: "Камеры", link: "/cameras", icon: VideoCameraIcon },
+        { name: "Показатели", link: "/dashboard", icon: ChartBarSquareIcon },
     ];
     return (
         <aside className="sticky top-20 h-screen z-10 flex">

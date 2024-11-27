@@ -1,6 +1,6 @@
 const ButtonsContainer = ({ children }) => {
     return (
-        <div className='flex justify-center'>
+        <div className='flex justify-between'>
             {children}
         </div>
     );

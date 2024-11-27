@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Bars3Icon, UserCircleIcon, PlusCircleIcon } from '@heroicons/react/24/outline'
 import IconButton from '../../components/buttons/IconButton';
-
+import logo from '../../assets/logo.png';
 
 const Navbar = ({ toggleSidebar, handleAddModalButtonClick }) => {
 
@@ -16,9 +16,12 @@ const Navbar = ({ toggleSidebar, handleAddModalButtonClick }) => {
             </IconButton>
           </li>
           <li>
-            <h1 className="leading-none text-2xl text-gray-800 font-bold ml-5"> {/* Добавляем margin слева для выравнивания */}
+            <img src={logo} alt="logo" className="h-20 w-20 ml-3" />
+          </li>
+          <li>
+            <h1 className="leading-none text-2xl text-gray-800 font-bold"> {/* Добавляем margin слева для выравнивания */}
               <a href="#">
-                AdSenseVision
+                OptiSense
               </a>
             </h1>
           </li>
@@ -38,8 +41,7 @@ const Navbar = ({ toggleSidebar, handleAddModalButtonClick }) => {
       <nav>
         <ul className="md:flex md:items-center">
           <li className="md:ml-4">
-            <IconButton
-              onClick={handleAddModalButtonClick}>
+            <IconButton>
               <PlusCircleIcon className="h-7 w-7" />
             </IconButton>
           </li>
