@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import AcceptButton from "../buttons/AcceptButton.jsx";
 import { CheckIcon, XMarkIcon, ArrowUturnLeftIcon, ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
 import ButtonsContainer from "../containers/buttonsContainer/ButtonsContainer.jsx";
+import dragImg from "../../assets/dragImg.png"
 
 const RoiBox = ({ imageSrc, initialPolygons = [], onPolygonsChange}) => {
     const canvasRef = useRef(null);
@@ -37,7 +38,7 @@ const RoiBox = ({ imageSrc, initialPolygons = [], onPolygonsChange}) => {
 
         // Загружаем изображение из props или используем дефолтное
         const defaultImg = new Image();
-        defaultImg.src = imageSrc || 'https://assets.website-files.com/5f6bc60e665f54545a1e52a5/63d3f236a6f0dae14cdf0063_drag-image-here.png';
+        defaultImg.src = imageSrc || dragImg;
         defaultImg.onload = () => {
             setImg(defaultImg);
             setImgLoaded(true);
