@@ -179,12 +179,12 @@ const RoiBox = ({ imageSrc, initialPolygons = [], onPolygonsChange}) => {
             context.fill();
 
             context.strokeStyle = 'red';
-            context.lineWidth = 2;
+            context.lineWidth = 3;
             context.stroke();
 
             polygon.forEach(([x, y]) => {
                 context.beginPath();
-                context.arc(x, y, 4, 0, Math.PI * 2);
+                context.arc(x, y, 5, 0, Math.PI * 2);
                 context.fillStyle = 'red';
                 context.fill();
             });
@@ -200,12 +200,12 @@ const RoiBox = ({ imageSrc, initialPolygons = [], onPolygonsChange}) => {
                 }
             });
             context.strokeStyle = 'blue';
-            context.lineWidth = 2;
+            context.lineWidth = 3;
             context.stroke();
 
             points.forEach(([x, y]) => {
                 context.beginPath();
-                context.arc(x, y, 4, 0, Math.PI * 2);
+                context.arc(x, y, 5, 0, Math.PI * 2);
                 context.fillStyle = 'blue';
                 context.fill();
             });
@@ -216,8 +216,8 @@ const RoiBox = ({ imageSrc, initialPolygons = [], onPolygonsChange}) => {
                 context.beginPath();
                 context.moveTo(lastX, lastY);
                 context.lineTo(mouseX, mouseY);
-                context.strokeStyle = 'pink';
-                context.lineWidth = 2;
+                context.strokeStyle = 'orange';
+                context.lineWidth = 3;
                 context.stroke();
             }
         }
