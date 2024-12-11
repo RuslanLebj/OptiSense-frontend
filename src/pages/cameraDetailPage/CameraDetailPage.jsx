@@ -44,7 +44,6 @@ const CameraDetailPage = () => {
                     roi_polygons_points: response.data.roi_polygons_points,
                     parameter_types: response.data.parameter_types || {},
                 }); // Устанавливаем начальное значение формы
-                console.log(response.data.parameter_types);
             } catch (err) {
                 console.error('Error fetching camera details:', err);
                 setError('Failed to load camera details');

@@ -1,9 +1,18 @@
 import React, { useState } from 'react';
+import { useNavigate} from "react-router-dom";
 import { Bars3Icon, UserCircleIcon, PlusCircleIcon } from '@heroicons/react/24/outline'
 import IconButton from '../../components/buttons/IconButton';
 import logo from '../../assets/logo.png';
 
 const Navbar = ({ toggleSidebar, handleAddModalButtonClick }) => {
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("access");
+    localStorage.removeItem("refresh");
+    navigate("/login"); // Перенаправление на страницу логина
+  };
 
   return (
     <header className="sticky top-0 z-20 md:h-20 bg-white border-b md:flex md:items-center md:justify-between p-4 pb-0 shadow-md md:pb-4">
@@ -47,7 +56,7 @@ const Navbar = ({ toggleSidebar, handleAddModalButtonClick }) => {
           </li>
           <li className="md:ml-4">
             <IconButton>
-              <UserCircleIcon className="h-7 w-7" />
+              <UserCircleIcon className="h-7 w-7" onClick={handleLogout} />
             </IconButton>
           </li>
         </ul>

@@ -6,12 +6,14 @@ import CameraDetailPage from './pages/cameraDetailPage/CameraDetailPage.jsx';
 import DashboardPage from './pages/dashboardPage/DashboardPage.jsx';
 
 import { Routes, Route } from 'react-router-dom';
+import LoginPage from "./pages/loginPage/LoginPage.jsx";
 
 function App() {
   return (
     <div>
       {/* Определение маршрутов */}
       <Routes>
+          <Route path="/login" element={<LoginPage />} />
         <Route path="/" element={<Layout />}>
           <Route path="/cameras" element={<CameraListPage />} />
           <Route path="/cameras/:id" element={<CameraDetailPage />} />
