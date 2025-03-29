@@ -30,7 +30,7 @@ const LoginPage = () => {
             <form onSubmit={handleSubmit} className="bg-white text-black rounded-lg shadow-md p-8 max-w-sm w-full">
                 <div className="text-center mb-4">
                     <img
-                        src={logo} // Укажите путь к вашему изображению
+                        src={logo}
                         alt="Logo"
                         className="mx-auto w-20 h-20"
                     />

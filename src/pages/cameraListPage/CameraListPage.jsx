@@ -6,7 +6,7 @@ import FlexSpacerContainer from '../../components/containers/flexSpacerContainer
 import { Link } from 'react-router-dom';
 import {Autocomplete, TextField} from "@mui/material";
 
-const baseUrl = import.meta.env.VITE_BASE_URL;
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const CameraListPage = () => {
   const [camerasList, setCamerasList] = useState([]);
@@ -18,8 +18,8 @@ const CameraListPage = () => {
     const fetchCameras = async () => {
       try {
         const url = selectedOutletId
-            ? `${baseUrl}/cameras/?outlet=${selectedOutletId}`
-            : `${baseUrl}/cameras/`;
+            ? `${apiUrl}/cameras/?outlet=${selectedOutletId}`
+            : `${apiUrl}/cameras/`;
         const response = await axios.get(url);
         setCamerasList(response.data);
       } catch (error) {
@@ -34,7 +34,7 @@ const CameraListPage = () => {
     // Фетчинг аутлетов
     const fetchOutlets = async () => {
       try {
-        const response = await axios.get(`${baseUrl}/outlets`);
+        const response = await axios.get(`${apiUrl}/outlets`);
         setOutlets(response.data);
       } catch (error) {
         console.error('Error fetching outlets:', error);

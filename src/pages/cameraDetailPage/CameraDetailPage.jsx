@@ -13,7 +13,7 @@ import ButtonsContainer from '../../components/containers/buttonsContainer/Butto
 import RoiBox from "../../components/roiBox/RoiBox.jsx";
 import CheckboxGroup from "../../components/checkboxGroup/CheckboxGroup.jsx";
 
-const baseUrl = import.meta.env.VITE_BASE_URL;
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const parameterLabels = {
     has_earrings: 'Наличие украшений',
@@ -37,7 +37,7 @@ const CameraDetailPage = () => {
         const fetchData = async () => {
             setLoading(true);
             try {
-                const response = await axios.get(`${baseUrl}/cameras/${id}/`);
+                const response = await axios.get(`${apiUrl}/cameras/${id}/`);
                 setCameraDetails(response.data);
                 setFormData({
                     preview: response.data.preview,
@@ -57,7 +57,7 @@ const CameraDetailPage = () => {
     // Обработчик сохранения изменений
     const handleSave = async () => {
         try {
-            const response = await axios.patch(`${baseUrl}/cameras/${id}/`, formData);
+            const response = await axios.patch(`${apiUrl}/cameras/${id}/`, formData);
             setCameraDetails(response.data);
         } catch (err) {
             console.error('Error saving camera details:', err);
@@ -125,7 +125,7 @@ const CameraDetailPage = () => {
                             </a>
                         </DetailPageElementContainer>
                         <DetailPageElementContainer>
-                            <SmallTitle title={"Параметры отслеживания:"}/>
+                            <SmallTitle title={"Отслеживаемые показатели:"}/>
                             <CheckboxGroup
                                 parameters={formData.parameter_types} // Передаем параметры из formData
                                 labels={parameterLabels}

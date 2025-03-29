@@ -7,7 +7,7 @@ import { TextField } from "@mui/material";
 import dayjs from "../../utils/dayjsSetup.js"
 import ChartData from "../../components/chartData/ChartData.jsx";
 
-const baseUrl = import.meta.env.VITE_BASE_URL;
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const groupByOptions = [
   { value: "day", label: "День" },
@@ -41,7 +41,7 @@ const DashboardPage = () => {
   useEffect(() => {
     const fetchOptions = async () => {
       try {
-        const outletResponse = await axios.get(`${baseUrl}/outlets/`);
+        const outletResponse = await axios.get(`${apiUrl}/outlets/`);
         setOutletOptions(outletResponse.data);
       } catch (err) {
         setError("Не удалось загрузить список магазинов");
@@ -60,7 +60,7 @@ const DashboardPage = () => {
       }
 
       try {
-        const cameraResponse = await axios.get(`${baseUrl}/cameras/`, {
+        const cameraResponse = await axios.get(`${apiUrl}/cameras/`, {
           params: { outlet: selectedOutlet.id },
         });
         setCameraOptions(cameraResponse.data);
@@ -80,7 +80,7 @@ const DashboardPage = () => {
       try {
         setLoading(true);
 
-        const response = await axios.get(`${baseUrl}/records/averages/`, {
+        const response = await axios.get(`${apiUrl}/records/averages/`, {
           params: {
             outlet: selectedOutlet.id,
             camera: selectedCamera.id,
