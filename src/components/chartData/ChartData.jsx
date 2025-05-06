@@ -5,7 +5,7 @@ import dayjs from "../../utils/dayjsSetup.js"
 import MiddleTitle from "../titles/middleTitle/MiddleTitle.jsx";
 import FlexSpacerContainer from "../containers/flexSpacerContainer/FlexSpacerContainer.jsx";
 
-const ChartData = ({ data, dateRange, setDateRange, groupBy, parameterLabel }) => {
+const ChartData = ({ data, dateRange, setDateRange, groupBy, indicatorLabel }) => {
     const formatDateLabel = (date) => {
         switch (groupBy) {
             case "week":
@@ -31,14 +31,14 @@ const ChartData = ({ data, dateRange, setDateRange, groupBy, parameterLabel }) =
     return (
         <>
             <FlexSpacerContainer>
-                <MiddleTitle title={`График: ${parameterLabel}`}/>
+                <MiddleTitle title={`Диаграмма: ${indicatorLabel}`}/>
             </FlexSpacerContainer>
         <div className="flex flex-col items-center">
             <DateRangeSelector dateRange={dateRange} setDateRange={setDateRange} groupBy={groupBy} />
             {filteredData.length > 0 ? (
                 <BarChart
                     xAxis={[{ dataKey: "time", scaleType: "band" }]}
-                    series={[{ dataKey: "value", label: parameterLabel }]}
+                    series={[{ dataKey: "value", label: indicatorLabel }]}
                     dataset={filteredData}
                     width={1000}
                     height={400}

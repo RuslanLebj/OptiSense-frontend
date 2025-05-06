@@ -22,6 +22,29 @@ const CheckboxGroup = ({parameters, labels, onChange}) => {
                         }
                         label={labels[param] || param} // Показываем расшифровку на русском или имя параметра, если нет перевода
                     />
+                    {index === 0 && ( // Второй элемент: предзаполненное значение 5
+                        <TextField
+                            variant="outlined"
+                            size="small"
+                            placeholder="Пороговое значение"
+                            defaultValue={5}
+                        />
+                    )}
+                    {index === 2 && ( // Третий элемент: предзаполненное значение 380
+                        <TextField
+                            variant="outlined"
+                            size="small"
+                            placeholder="Пороговое значение"
+                            defaultValue={380}
+                        />
+                    )}
+                    {index > 2 && (
+                        <TextField
+                            variant="outlined"
+                            size="small"
+                            placeholder="Ограничение"
+                        />
+                    )}
                 </div>
             ))}
         </div>

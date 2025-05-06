@@ -38,14 +38,6 @@ const Navbar = ({ toggleSidebar, handleAddModalButtonClick }) => {
       </nav>
       {/* END Logo text or image */}
 
-      {/* Search field */}
-      <form className="mb-4 w-full md:mb-0 md:w-1/4">
-        <label className="hidden" htmlFor="search-form">Search</label>
-        <input className="bg-grey-lightest border-2 p-2 rounded-lg shadow-inner w-full" placeholder="Поиск" type="text" />
-        <button className="hidden">Submit</button>
-      </form>
-      {/* END Search field */}
-
       {/* Global navigation */}
       <nav>
         <ul className="md:flex md:items-center">

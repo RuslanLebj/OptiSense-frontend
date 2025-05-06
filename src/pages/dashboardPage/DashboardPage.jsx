@@ -3,9 +3,10 @@ import axios from 'axios';
 import PageTitle from '../../components/titles/pageTitle/PageTitle';
 import FlexSpacerContainer from '../../components/containers/flexSpacerContainer/FlexSpacerContainer';
 import Autocomplete from "@mui/material/Autocomplete";
-import { TextField } from "@mui/material";
+import {Button, TextField} from "@mui/material";
 import dayjs from "../../utils/dayjsSetup.js"
 import ChartData from "../../components/chartData/ChartData.jsx";
+import HoursFilter from "../../components/hoursFilter/HoursFilter.jsx";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -15,9 +16,15 @@ const groupByOptions = [
   { value: "month", label: "Месяц" },
 ];
 
-const parameterOptions = [
-  { value: "queue_length", label: "Средняя длина очереди" },
-  { value: "service_duration", label: "Средняя скорость обслуживания" },
+const indicatorOptions = [
+  { value: "queue_length", label: "Длина очереди" },
+  { value: "service_duration", label: "Скорость обслуживания" },
+];
+
+const aggregateOptions = [
+  { value: "avg", label: "Среднее" },
+  { value: "min", label: "Минимальное" },
+  { value: "max", label: "Максимальное" },
 ];
 
 const DashboardPage = () => {
@@ -31,7 +38,13 @@ const DashboardPage = () => {
   const [selectedOutlet, setSelectedOutlet] = useState(null);
   const [selectedCamera, setSelectedCamera] = useState(null);
   const [selectedGroupBy, setSelectedGroupBy] = useState(groupByOptions[0].value);
-  const [selectedParameter, setSelectedParameter] = useState(parameterOptions[0].value);
+  const [selectedIndicator, setSelectedIndicator] = useState(indicatorOptions[0].value);
+  const [selectedAggregate, setSelectedAggregate] = useState(aggregateOptions[0].value);
+  const [selectedHoursFilter, setSelectedHoursFilter] = useState({
+    exclude: false,
+    from: null,
+    to: null,
+  });
   const [dateRange, setDateRange] = useState([
     dayjs().subtract(7, "day"),
     dayjs(),
@@ -80,15 +93,22 @@ const DashboardPage = () => {
       try {
         setLoading(true);
 
-        const response = await axios.get(`${apiUrl}/records/averages/`, {
-          params: {
-            outlet: selectedOutlet.id,
-            camera: selectedCamera.id,
-            group_by: selectedGroupBy,
-            parameter: selectedParameter,
-          },
-        });
+        const params = {
+          outlet: selectedOutlet.id,
+          camera: selectedCamera.id,
+          group_by: selectedGroupBy,
+          indicator: selectedIndicator,
+          aggregate_type: selectedAggregate,
+        };
+
+        if (selectedHoursFilter.exclude) {
+          params.exclude_hour_start = selectedHoursFilter.from;
+          params.exclude_hour_end = selectedHoursFilter.to;
+        }
+
+        const response = await axios.get(`${apiUrl}/records/aggregates/`, { params });
         setRecords(response.data);
+        console.log(response.data);
         setLoading(false);
       } catch (err) {
         setError("Не удалось загрузить записи");
@@ -97,7 +117,7 @@ const DashboardPage = () => {
     };
 
     fetchRecords();
-  }, [selectedOutlet, selectedCamera, selectedGroupBy, selectedParameter]);
+  }, [selectedOutlet, selectedCamera, selectedGroupBy, selectedIndicator, selectedAggregate, selectedHoursFilter]);
 
   const chartData = Array.isArray(records?.values)
       ? records.values.map((record) => ({
@@ -138,15 +158,32 @@ const DashboardPage = () => {
             className={"w-72"}
         />
         <Autocomplete
-            options={parameterOptions}
+            options={indicatorOptions}
             getOptionLabel={(option) => option.label}
-            value={parameterOptions.find((option) => option.value === selectedParameter)}
-            onChange={(event, newValue) => setSelectedParameter(newValue.value)}
-            renderInput={(params) => <TextField {...params} label="Параметр" />}
+            value={indicatorOptions.find((option) => option.value === selectedIndicator)}
+            onChange={(event, newValue) => setSelectedIndicator(newValue.value)}
+            renderInput={(params) => <TextField {...params} label="Показатели" />}
+            className={"w-72"}
+        />
+        <Autocomplete
+            options={aggregateOptions}
+            getOptionLabel={(option) => option.label}
+            value={aggregateOptions.find((option) => option.value === selectedAggregate)}
+            onChange={(event, newValue) => setSelectedAggregate(newValue.value)}
+            renderInput={(params) => <TextField {...params} label="Тип агрегации" />}
             className={"w-72"}
         />
       </FlexSpacerContainer>
-      {(!selectedOutlet || !selectedCamera || !selectedGroupBy || !selectedParameter) ? (
+      <FlexSpacerContainer>
+        <HoursFilter onChange={setSelectedHoursFilter}/>
+        <Button
+            variant="contained"
+            sx={{ whiteSpace: "nowrap", height: "fit-content", alignSelf: "center" }}
+        >
+          Выгрузить в .csv
+        </Button>
+      </FlexSpacerContainer>
+      {(!selectedOutlet || !selectedCamera || !selectedGroupBy || !selectedIndicator) ? (
           <p>Пожалуйста, выберите все параметры для отображения данных.</p>
       ) : chartData.length > 0 ? (
           <ChartData
@@ -154,7 +191,7 @@ const DashboardPage = () => {
               dateRange={dateRange}
               setDateRange={setDateRange}
               groupBy={selectedGroupBy}
-              parameterLabel={parameterOptions.find((opt) => opt.value === selectedParameter)?.label}
+              indicatorLabel={indicatorOptions.find((opt) => opt.value === selectedIndicator)?.label}
           />
       ) : (
           <p>Нет данных для отображения. Проверьте параметры фильтрации.</p>

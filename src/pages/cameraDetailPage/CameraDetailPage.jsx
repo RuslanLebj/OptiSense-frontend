@@ -16,7 +16,7 @@ import CheckboxGroup from "../../components/checkboxGroup/CheckboxGroup.jsx";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const parameterLabels = {
-    has_earrings: 'Наличие украшений',
+    jewelry_absent: 'Наличие украшений',
     queue_length: 'Длина очереди',
     service_duration: 'Скорость обслуживания',
 };
@@ -26,8 +26,8 @@ const CameraDetailPage = () => {
     const [cameraDetails, setCameraDetails] = useState([]);
     const [formData, setFormData] = useState({
         preview: '',
-        roi_polygons_points: '',
-        parameter_types: {},
+        roi_polygons: '',
+        indicators_status: {},
     });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -41,8 +41,8 @@ const CameraDetailPage = () => {
                 setCameraDetails(response.data);
                 setFormData({
                     preview: response.data.preview,
-                    roi_polygons_points: response.data.roi_polygons_points,
-                    parameter_types: response.data.parameter_types || {},
+                    roi_polygons: response.data.roi_polygons,
+                    indicators_status: response.data.indicators_status || {},
                 }); // Устанавливаем начальное значение формы
             } catch (err) {
                 console.error('Error fetching camera details:', err);
@@ -69,8 +69,8 @@ const CameraDetailPage = () => {
         // Отмена изменений и восстановление изначальных данных
         setFormData({
             preview: cameraDetails.preview,
-            roi_polygons_points: cameraDetails.roi_polygons_points,
-            parameter_types: cameraDetails.parameter_types,
+            roi_polygons: cameraDetails.roi_polygons,
+            indicators_status: cameraDetails.indicators_status,
         });
     };
 
@@ -78,12 +78,11 @@ const CameraDetailPage = () => {
     const handleParameterChange = (param, checked) => {
         setFormData((prevFormData) => ({
             ...prevFormData,
-            parameter_types: {
-                ...prevFormData.parameter_types,
+            indicators_status: {
+                ...prevFormData.indicators_status,
                 [param]: checked, // Обновляем конкретный параметр в formData
             },
         }));
-        console.log(formData.parameter_types);
     };
 
     // if (loading) return <PageTitle title={`Загрузка...`} />;
@@ -127,17 +126,17 @@ const CameraDetailPage = () => {
                         <DetailPageElementContainer>
                             <SmallTitle title={"Отслеживаемые показатели:"}/>
                             <CheckboxGroup
-                                parameters={formData.parameter_types} // Передаем параметры из formData
+                                parameters={formData.indicators_status} // Передаем параметры из formData
                                 labels={parameterLabels}
                                 onChange={handleParameterChange} // Обработчик изменения
                             />
                         </DetailPageElementContainer>
                     </div>
                     <div className="lg:w-3/4">
-                        <RoiBox imageSrc={cameraDetails.preview} initialPolygons={cameraDetails.roi_polygons_points}
+                        <RoiBox imageSrc={cameraDetails.preview} initialPolygons={cameraDetails.roi_polygons}
                                 onPolygonsChange={(updatedPolygons) => setFormData((prev) => ({
                                     ...prev,
-                                    roi_polygons_points: updatedPolygons
+                                    roi_polygons: updatedPolygons
                                 }))}/>
                     </div>
                 </FlexSpacerContainer>
