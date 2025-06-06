@@ -240,7 +240,7 @@ const RoiBox = ({ imageSrc, initialPolygons = [], onPolygonsChange}) => {
         <>
             <div
                 className="image-container rounded border-solid border-2 border-red-400 bg-gray-100"
-                onDrop={handleImageDrop}
+                //onDrop={handleImageDrop}
                 onDragOver={(e) => e.preventDefault()}
                 style={{
                     width: `${containerWidth}px`,
@@ -268,14 +268,20 @@ const RoiBox = ({ imageSrc, initialPolygons = [], onPolygonsChange}) => {
                     }}
                 />
             </div>
-            <ButtonsContainer>
+            <div
+                style={{
+                    width:`${containerWidth}px`,
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    marginTop: '10px',}}>
                 <AcceptButton onClick={completePolygon} icon={CheckIcon} label="Завершить область" />
                 <AcceptButton onClick={undoLastAction} icon={ArrowUturnLeftIcon} label="Назад" />
                 <AcceptButton onClick={() => {
                     navigator.clipboard.writeText(JSON.stringify(convertToPolygonsData(masterPoints), null, 2));
                 }} icon={ArrowTopRightOnSquareIcon} label="Экспортировать JSON" />
                 <AcceptButton onClick={clearAll} icon={XMarkIcon} label="Очистить всё" />
-            </ButtonsContainer>
+            </div>
         </>
     );
 };

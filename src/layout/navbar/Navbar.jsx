@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate} from "react-router-dom";
-import { Bars3Icon, UserCircleIcon, PlusCircleIcon } from '@heroicons/react/24/outline'
+import { Bars3Icon, UserCircleIcon, QuestionMarkCircleIcon } from '@heroicons/react/24/outline'
 import IconButton from '../../components/buttons/IconButton';
 import logo from '../../assets/logo.png';
+import {Tooltip} from "@mui/material";
 
 const Navbar = ({ toggleSidebar, handleAddModalButtonClick }) => {
 
@@ -43,12 +44,18 @@ const Navbar = ({ toggleSidebar, handleAddModalButtonClick }) => {
         <ul className="md:flex md:items-center">
           <li className="md:ml-4">
             <IconButton>
-              <PlusCircleIcon className="h-7 w-7" />
+              <Tooltip title="Обратная связь" arrow>
+                <a href={import.meta.env.VITE_FORM_URL} target="_blank" rel="noopener noreferrer">
+                  <QuestionMarkCircleIcon className="h-7 w-7" />
+                </a>
+              </Tooltip>
             </IconButton>
           </li>
           <li className="md:ml-4">
             <IconButton>
-              <UserCircleIcon className="h-7 w-7" onClick={handleLogout} />
+              <Tooltip title="Выход" arrow>
+                <UserCircleIcon className="h-7 w-7" onClick={handleLogout} />
+              </Tooltip>
             </IconButton>
           </li>
         </ul>
