@@ -137,6 +137,10 @@ const CameraDetailPage = () => {
                             </a>
                         </DetailPageElementContainer>
                         <DetailPageElementContainer>
+                            <SmallTitle title={"Время работы камеры:"}/>
+                            {cameraDetails.start_time} - {cameraDetails.end_time}
+                        </DetailPageElementContainer>
+                        <DetailPageElementContainer>
                             <SmallTitle title={"Отслеживаемые показатели:"}/>
                             <CheckboxGroup
                                 status={formData.indicators_status}
