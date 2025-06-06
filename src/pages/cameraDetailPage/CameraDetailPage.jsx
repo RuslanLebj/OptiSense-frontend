@@ -28,6 +28,7 @@ const CameraDetailPage = () => {
         preview: '',
         roi_polygons: '',
         indicators_status: {},
+        indicators_threshold: {},
     });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -43,6 +44,7 @@ const CameraDetailPage = () => {
                     preview: response.data.preview,
                     roi_polygons: response.data.roi_polygons,
                     indicators_status: response.data.indicators_status || {},
+                    indicators_threshold: response.data.indicators_threshold || {},
                 }); // Устанавливаем начальное значение формы
             } catch (err) {
                 console.error('Error fetching camera details:', err);
@@ -71,19 +73,30 @@ const CameraDetailPage = () => {
             preview: cameraDetails.preview,
             roi_polygons: cameraDetails.roi_polygons,
             indicators_status: cameraDetails.indicators_status,
+            indicators_threshold: cameraDetails.indicators_threshold,
         });
     };
 
-    // Обработчик изменения значений параметров
-    const handleParameterChange = (param, checked) => {
-        setFormData((prevFormData) => ({
-            ...prevFormData,
-            indicators_status: {
-                ...prevFormData.indicators_status,
-                [param]: checked, // Обновляем конкретный параметр в formData
-            },
-        }));
+
+    const handleIndicatorChange = (param, kind, value) => {
+        setFormData(prev => {
+            const normalised =
+                kind === 'indicators_threshold'
+                    ? value === ''
+                        ? ''
+                        : Number(value)     // строку '18' превращаем в 18
+                    : value;              // для чекбокса оставляем boolean
+
+            return {
+                ...prev,
+                [kind]: {
+                    ...prev[kind],
+                    [param]: normalised,
+                },
+            };
+        });
     };
+
 
     // if (loading) return <PageTitle title={`Загрузка...`} />;
     if (error) return <PageTitle title={`Error: ${error}`}/>;
@@ -126,9 +139,10 @@ const CameraDetailPage = () => {
                         <DetailPageElementContainer>
                             <SmallTitle title={"Отслеживаемые показатели:"}/>
                             <CheckboxGroup
-                                parameters={formData.indicators_status} // Передаем параметры из formData
+                                status={formData.indicators_status}
+                                thresholds={formData.indicators_threshold}
                                 labels={parameterLabels}
-                                onChange={handleParameterChange} // Обработчик изменения
+                                onChange={handleIndicatorChange}
                             />
                         </DetailPageElementContainer>
                     </div>

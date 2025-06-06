@@ -1,54 +1,39 @@
 import React from 'react';
-import {FormControlLabel, Checkbox, TextField} from '@mui/material';
+import { Checkbox, FormControlLabel, TextField } from '@mui/material';
 
-const CheckboxGroup = ({parameters, labels, onChange}) => {
-    const handleCheckboxChange = (event) => {
-        const {name, checked} = event.target;
-        onChange(name, checked);
-    };
+const CheckboxGroup = ({ status, thresholds, labels, onChange }) => (
+    <div className="flex flex-col space-y-2">
+        {Object.keys(status).map(param => (
+            <div key={param} className="flex flex-col">
+                <FormControlLabel
+                    control={
+                        <Checkbox
+                            checked={!!status[param]}
+                            onChange={e =>
+                                onChange(param, 'indicators_status', e.target.checked)
+                            }
+                            name={param}
+                        />
+                    }
+                    label={labels[param] || param}
+                />
 
-    return (
-        <div className="flex flex-col">
-            {Object.entries(parameters).map(([param, value], index) => (
-                <div key={param} className="flex flex-col space-y-1">
-                    <FormControlLabel
-                        control={
-                            <Checkbox
-                                checked={typeof value === 'boolean' ? value : false} // Если значение undefined, ставим false
-                                onChange={handleCheckboxChange}
-                                name={param}
-                                color="primary"
-                            />
-                        }
-                        label={labels[param] || param} // Показываем расшифровку на русском или имя параметра, если нет перевода
-                    />
-                    {index === 0 && ( // Второй элемент: предзаполненное значение 5
-                        <TextField
-                            variant="outlined"
-                            size="small"
-                            placeholder="Пороговое значение"
-                            defaultValue={5}
-                        />
-                    )}
-                    {index === 2 && ( // Третий элемент: предзаполненное значение 380
-                        <TextField
-                            variant="outlined"
-                            size="small"
-                            placeholder="Пороговое значение"
-                            defaultValue={380}
-                        />
-                    )}
-                    {index > 2 && (
-                        <TextField
-                            variant="outlined"
-                            size="small"
-                            placeholder="Ограничение"
-                        />
-                    )}
-                </div>
-            ))}
-        </div>
-    );
-};
+
+                <TextField
+                    variant="outlined"
+                    size="small"
+                    placeholder="Пороговое значение"
+                    name={param}
+                    value={thresholds[param]}
+                    onChange={e =>
+                        onChange(param, 'indicators_threshold', e.target.value)
+                    }
+                    inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+                    disabled={!status[param]}
+                />
+            </div>
+        ))}
+    </div>
+);
 
 export default CheckboxGroup;
