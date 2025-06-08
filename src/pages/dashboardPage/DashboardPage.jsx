@@ -125,45 +125,54 @@ const DashboardPage = () => {
       }))
       : [];
 
-  const handleCsvExport = async () => {
-    if (!selectedOutlet || !selectedCamera) return;
+const handleCsvExport = async () => {
+  if (!selectedOutlet || !selectedCamera) return;
 
-    const param = {
-      outlet: selectedOutlet.id,
-      camera: selectedCamera.id,
-      group_by: selectedGroupBy,
-      indicator: selectedIndicator,
-      aggregate_type: selectedAggregate,
-    };
-
-    if (selectedHoursFilter.exclude) {
-      param.exclude_hour_start = selectedHoursFilter.from;
-      param.exclude_hour_end = selectedHoursFilter.to;
-    }
-
-    try {
-      const response = await axios.post(
-          `${apiUrl}/records/aggregates/csv`,
-          null,
-          {
-            params: param,
-            responseType: "blob",
-          }
-      );
-      const blob = new Blob([response.data], { type: "text/csv;charset=utf-8;" });
-      const url  = window.URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", "aggregates.csv");
-      document.body.appendChild(link);
-      link.click();
-      link.parentNode.removeChild(link);
-      window.URL.revokeObjectURL(url);
-    } catch (err) {
-      console.error("CSV export error", err);
-      alert("Не удалось скачать CSV");
-    }
+  const params = {
+    outlet: selectedOutlet.id,
+    camera: selectedCamera.id,
+    group_by: selectedGroupBy,
+    indicator: selectedIndicator,
+    aggregate_type: selectedAggregate,
   };
+  if (selectedHoursFilter.exclude) {
+    params.exclude_hour_start = selectedHoursFilter.from;
+    params.exclude_hour_end   = selectedHoursFilter.to;
+  }
+
+  try {
+    // корректный вызов GET с params и blob
+    const response = await axios.get(
+      `${apiUrl}/records/aggregates/csv`,
+      { params, responseType: 'blob' }
+    );
+
+    // извлекаем имя файла из заголовка Content-Disposition
+    const cd = response.headers['content-disposition'];
+    let filename = 'aggregates.csv';
+    if (cd) {
+      const match = cd.match(/filename\*?=(?:UTF-8''?)?\"?([^\";]+)\"?/);
+      if (match && match[1]) {
+        filename = decodeURIComponent(match[1]);
+      }
+    }
+
+    // создаём blob и инициируем скачивание
+    const blob = new Blob([response.data], { type: 'text/csv;charset=utf-8;' });
+    const url  = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', filename);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+
+  } catch (err) {
+    console.error('CSV export error', err);
+    alert('Не удалось скачать CSV');
+  }
+};
 
   return (
     <>
