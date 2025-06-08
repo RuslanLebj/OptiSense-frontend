@@ -108,7 +108,6 @@ const DashboardPage = () => {
 
         const response = await axios.get(`${apiUrl}/records/aggregates/`, { params });
         setRecords(response.data);
-        console.log(response.data);
         setLoading(false);
       } catch (err) {
         setError("Не удалось загрузить записи");
@@ -125,6 +124,46 @@ const DashboardPage = () => {
         y: record.value,  // Среднее значение параметра
       }))
       : [];
+
+  const handleCsvExport = async () => {
+    if (!selectedOutlet || !selectedCamera) return;
+
+    const param = {
+      outlet: selectedOutlet.id,
+      camera: selectedCamera.id,
+      group_by: selectedGroupBy,
+      indicator: selectedIndicator,
+      aggregate_type: selectedAggregate,
+    };
+
+    if (selectedHoursFilter.exclude) {
+      param.exclude_hour_start = selectedHoursFilter.from;
+      param.exclude_hour_end = selectedHoursFilter.to;
+    }
+
+    try {
+      const response = await axios.post(
+          `${apiUrl}/records/aggregates/csv`,
+          null,
+          {
+            params: param,
+            responseType: "blob",
+          }
+      );
+      const blob = new Blob([response.data], { type: "text/csv;charset=utf-8;" });
+      const url  = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "aggregates.csv");
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error("CSV export error", err);
+      alert("Не удалось скачать CSV");
+    }
+  };
 
   return (
     <>
@@ -177,6 +216,8 @@ const DashboardPage = () => {
       <FlexSpacerContainer>
         <HoursFilter onChange={setSelectedHoursFilter}/>
         <Button
+            onClick={handleCsvExport}
+            disabled={!selectedOutlet || !selectedCamera}
             variant="contained"
             sx={{ whiteSpace: "nowrap", height: "fit-content", alignSelf: "center" }}
         >
