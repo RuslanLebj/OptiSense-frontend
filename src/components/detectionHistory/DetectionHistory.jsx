@@ -71,7 +71,7 @@ export default function DetectionHistory({ selectedCamera, indicator, label }) {
                     minHeight: 0,
                 }}
             >
-                <Box sx={{ display: "flex", flexGrow: 1, minHeight: 0, maxHeight: "70vh" }}>
+                <Box sx={{ display: "flex", flexGrow: 1, minHeight: 0, height: "70vh",}}>
                     <List
                         dense
                         disablePadding
