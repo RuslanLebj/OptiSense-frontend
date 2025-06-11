@@ -7,6 +7,7 @@ import {Button, TextField} from "@mui/material";
 import dayjs from "../../utils/dayjsSetup.js"
 import ChartData from "../../components/chartData/ChartData.jsx";
 import HoursFilter from "../../components/hoursFilter/HoursFilter.jsx";
+import PivotTable from "../../components/pivotTable/PivotTable.jsx";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -143,7 +144,7 @@ const handleCsvExport = async () => {
   try {
     // корректный вызов GET с params и blob
     const response = await axios.get(
-      `${apiUrl}/records/aggregates/csv`,
+      `${apiUrl}/records/hours/aggregates/csv`,
       { params, responseType: 'blob' }
     );
 
@@ -245,6 +246,12 @@ const handleCsvExport = async () => {
           />
       ) : (
           <p>Нет данных для отображения. Проверьте параметры фильтрации.</p>
+      )}
+      {selectedOutlet && selectedCamera && chartData.length > 0 && (
+          <PivotTable
+              cameraId={selectedCamera.id}
+              indicator={selectedIndicator}
+          />
       )}
     </>
   );
