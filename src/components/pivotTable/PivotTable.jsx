@@ -54,53 +54,55 @@ export default function PivotTable({cameraId, indicator}) {
     });
 
     return (
-        <Paper sx={{p: 2, maxWidth: 650, mx: "auto"}}>
-            <DateRangeSelector
-                dateRange={dateRange}
-                setDateRange={setDateRange}
-                groupBy="day"
-            />
+        <Paper sx={{p: 2, maxWidth: 650, mx: "auto", mt: 4, mb: 4, boxShadow: 3,}}>
+            <div className="flex flex-col items-center">
+                <DateRangeSelector
+                    dateRange={dateRange}
+                    setDateRange={setDateRange}
+                    groupBy="day"
+                />
 
-            {loading ? (
-                <Box textAlign="center" py={3}><CircularProgress/></Box>
-            ) : (
-                <TableContainer>
-                    <Table size="small">
-                        <TableHead>
-                            <TableRow>
-                                {["interval", "avg", "max"].map((col) => (
-                                    <TableCell
-                                        key={col}
-                                        align={col === "interval" ? "left" : "right"}
-                                    >
-                                        <TableSortLabel
-                                            active={orderBy === col}
-                                            direction={orderBy === col ? order : "asc"}
-                                            onClick={() => handleSort(col)}
+                {loading ? (
+                    <Box textAlign="center" py={3}><CircularProgress/></Box>
+                ) : (
+                    <TableContainer>
+                        <Table size="small">
+                            <TableHead>
+                                <TableRow>
+                                    {["interval", "avg", "max"].map((col) => (
+                                        <TableCell
+                                            key={col}
+                                            align={col === "interval" ? "left" : "right"}
                                         >
-                                            {col === "interval" ? "Интервал" :
-                                                col === "avg" ? "Среднее" : "Максимум"}
-                                        </TableSortLabel>
-                                    </TableCell>
-                                ))}
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {sorted.map((r) => (
-                                <TableRow key={r.interval}>
-                                    <TableCell>{r.interval}</TableCell>
-                                    <TableCell align="right">
-                                        {r.avg != null ? Number(r.avg).toFixed(2) : "—"}
-                                    </TableCell>
-                                    <TableCell align="right">
-                                        {r.max != null ? Number(r.max).toFixed(1) : "—"}
-                                    </TableCell>
+                                            <TableSortLabel
+                                                active={orderBy === col}
+                                                direction={orderBy === col ? order : "asc"}
+                                                onClick={() => handleSort(col)}
+                                            >
+                                                {col === "interval" ? "Интервал" :
+                                                    col === "avg" ? "Среднее" : "Максимум"}
+                                            </TableSortLabel>
+                                        </TableCell>
+                                    ))}
                                 </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            )}
+                            </TableHead>
+                            <TableBody>
+                                {sorted.map((r) => (
+                                    <TableRow key={r.interval}>
+                                        <TableCell>{r.interval}</TableCell>
+                                        <TableCell align="right">
+                                            {r.avg != null ? Number(r.avg).toFixed(2) : "—"}
+                                        </TableCell>
+                                        <TableCell align="right">
+                                            {r.max != null ? Number(r.max).toFixed(1) : "—"}
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                )}
+            </div>
         </Paper>
     );
 }

@@ -247,7 +247,7 @@ const handleCsvExport = async () => {
       ) : (
           <p>Нет данных для отображения. Проверьте параметры фильтрации.</p>
       )}
-      {selectedOutlet && selectedCamera && chartData.length > 0 && (
+      {selectedOutlet && selectedCamera && (
           <PivotTable
               cameraId={selectedCamera.id}
               indicator={selectedIndicator}
