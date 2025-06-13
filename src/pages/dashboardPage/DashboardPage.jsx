@@ -143,7 +143,7 @@ const handleCsvExport = async () => {
   try {
     // корректный вызов GET с params и blob
     const response = await axios.get(
-      `${apiUrl}/records/aggregates/csv`,
+      `${apiUrl}/records/hours/aggregates/csv`,
       { params, responseType: 'blob' }
     );
 
