@@ -41,20 +41,8 @@ export default function PivotTable({cameraId, indicator}) {
         fetchData();
     }, [fetchData]);
 
-    const [orderBy, setBy] = useState("interval");
-    const [order, setOrd] = useState("asc");
-    const handleSort = (col) => {
-        const isAsc = orderBy === col && order === "asc";
-        setBy(col);
-        setOrd(isAsc ? "desc" : "asc");
-    };
-    const sorted = [...rows].sort((a, b) => {
-        const x = a[orderBy], y = b[orderBy];
-        return order === "asc" ? (x > y ? 1 : -1) : (x < y ? 1 : -1);
-    });
-
     return (
-        <Paper sx={{p: 2, maxWidth: 650, mx: "auto", mt: 4, mb: 4, boxShadow: 3,}}>
+        <Paper sx={{p: 2, maxWidth: 650, mx: "auto", mt: 4, mb: 4, boxShadow: 3}}>
             <div className="flex flex-col items-center">
                 <DateRangeSelector
                     dateRange={dateRange}
@@ -69,25 +57,13 @@ export default function PivotTable({cameraId, indicator}) {
                         <Table size="small">
                             <TableHead>
                                 <TableRow>
-                                    {["interval", "avg", "max"].map((col) => (
-                                        <TableCell
-                                            key={col}
-                                            align={col === "interval" ? "left" : "right"}
-                                        >
-                                            <TableSortLabel
-                                                active={orderBy === col}
-                                                direction={orderBy === col ? order : "asc"}
-                                                onClick={() => handleSort(col)}
-                                            >
-                                                {col === "interval" ? "Интервал" :
-                                                    col === "avg" ? "Среднее" : "Максимум"}
-                                            </TableSortLabel>
-                                        </TableCell>
-                                    ))}
+                                    <TableCell>Интервал</TableCell>
+                                    <TableCell align="right">Среднее</TableCell>
+                                    <TableCell align="right">Максимум</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {sorted.map((r) => (
+                                {rows.map((r) => (
                                     <TableRow key={r.interval}>
                                         <TableCell>{r.interval}</TableCell>
                                         <TableCell align="right">
