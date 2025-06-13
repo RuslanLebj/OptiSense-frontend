@@ -24,7 +24,6 @@ const indicatorOptions = [
 
 const aggregateOptions = [
   { value: "avg", label: "Среднее" },
-  { value: "min", label: "Минимальное" },
   { value: "max", label: "Максимальное" },
 ];
 
