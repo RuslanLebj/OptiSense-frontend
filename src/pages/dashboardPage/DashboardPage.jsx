@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import PageTitle from '../../components/titles/pageTitle/PageTitle';
 import FlexSpacerContainer from '../../components/containers/flexSpacerContainer/FlexSpacerContainer';
@@ -8,197 +8,206 @@ import dayjs from "../../utils/dayjsSetup.js"
 import ChartData from "../../components/chartData/ChartData.jsx";
 import HoursFilter from "../../components/hoursFilter/HoursFilter.jsx";
 import PivotTable from "../../components/pivotTable/PivotTable.jsx";
+import MiddleTitle from "../../components/titles/middleTitle/MiddleTitle.jsx";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const groupByOptions = [
-  { value: "day", label: "День" },
-  { value: "week", label: "Неделя" },
-  { value: "month", label: "Месяц" },
+    {value: "day", label: "День"},
+    {value: "week", label: "Неделя"},
+    {value: "month", label: "Месяц"},
 ];
 
 const indicatorOptions = [
-  { value: "queue_length", label: "Длина очереди" },
-  { value: "service_duration", label: "Скорость обслуживания" },
+    {value: "queue_length", label: "Длина очереди"},
+    {value: "service_duration", label: "Скорость обслуживания"},
 ];
 
 const aggregateOptions = [
-  { value: "avg", label: "Среднее" },
-  { value: "max", label: "Максимальное" },
+    {value: "avg", label: "Среднее"},
+    {value: "max", label: "Максимальное"},
 ];
 
 const DashboardPage = () => {
-  const [records, setRecords] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+    const [records, setRecords] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
-  const [outletOptions, setOutletOptions] = useState([]);
-  const [cameraOptions, setCameraOptions] = useState([]);
+    const [outletOptions, setOutletOptions] = useState([]);
+    const [cameraOptions, setCameraOptions] = useState([]);
 
-  const [selectedOutlet, setSelectedOutlet] = useState(null);
-  const [selectedCamera, setSelectedCamera] = useState(null);
-  const [selectedGroupBy, setSelectedGroupBy] = useState(groupByOptions[0].value);
-  const [selectedIndicator, setSelectedIndicator] = useState(indicatorOptions[0].value);
-  const [selectedAggregate, setSelectedAggregate] = useState(aggregateOptions[0].value);
-  const [selectedHoursFilter, setSelectedHoursFilter] = useState({
-    exclude: false,
-    from: null,
-    to: null,
-  });
-  const [dateRange, setDateRange] = useState([
-    dayjs().subtract(7, "day"),
-    dayjs(),
-  ]);
+    const [selectedOutlet, setSelectedOutlet] = useState(null);
+    const [selectedCamera, setSelectedCamera] = useState(null);
+    const [selectedGroupBy, setSelectedGroupBy] = useState(groupByOptions[0].value);
+    const [selectedIndicator, setSelectedIndicator] = useState(indicatorOptions[0].value);
+    const [selectedAggregate, setSelectedAggregate] = useState(aggregateOptions[0].value);
+    const [selectedHoursFilter, setSelectedHoursFilter] = useState({
+        exclude: false,
+        from: null,
+        to: null,
+    });
+    const [dateRange, setDateRange] = useState([
+        dayjs().subtract(7, "day"),
+        dayjs(),
+    ]);
 
-  // Загружаем список outlets
-  useEffect(() => {
-    const fetchOptions = async () => {
-      try {
-        const outletResponse = await axios.get(`${apiUrl}/outlets/`);
-        setOutletOptions(outletResponse.data);
-      } catch (err) {
-        setError("Не удалось загрузить список магазинов");
-      }
-    };
-
-    fetchOptions();
-  }, []);
-
-  //Загружаем список cameras в зависимости от быбранного outlet
-  useEffect(() => {
-    const fetchCameras = async () => {
-      if (!selectedOutlet) {
-        setCameraOptions([]); // Очищаем камеры, если магазин не выбран
-        return;
-      }
-
-      try {
-        const cameraResponse = await axios.get(`${apiUrl}/cameras/`, {
-          params: { outlet: selectedOutlet.id },
-        });
-        setCameraOptions(cameraResponse.data);
-      } catch (err) {
-        setError("Не удалось загрузить список камер");
-      }
-    };
-
-    fetchCameras();
-  }, [selectedOutlet]);
-
-  // Загружаем данные records с учётом фильтров
-  useEffect(() => {
-    const fetchRecords = async () => {
-      if (!selectedOutlet || !selectedCamera) return;
-
-      try {
-        setLoading(true);
-
-        const params = {
-          outlet: selectedOutlet.id,
-          camera: selectedCamera.id,
-          group_by: selectedGroupBy,
-          indicator: selectedIndicator,
-          aggregate_type: selectedAggregate,
+    // Загружаем список outlets
+    useEffect(() => {
+        const fetchOptions = async () => {
+            try {
+                const outletResponse = await axios.get(`${apiUrl}/outlets/`);
+                setOutletOptions(outletResponse.data);
+            } catch (err) {
+                setError("Не удалось загрузить список магазинов");
+            }
         };
 
-        if (selectedHoursFilter.exclude) {
-          params.exclude_hour_start = selectedHoursFilter.from;
-          params.exclude_hour_end = selectedHoursFilter.to;
-        }
+        fetchOptions();
+    }, []);
 
-        const response = await axios.get(`${apiUrl}/records/aggregates/`, { params });
-        setRecords(response.data);
-        setLoading(false);
-      } catch (err) {
-        setError("Не удалось загрузить записи");
-        setLoading(false);
-      }
-    };
+    //Загружаем список cameras в зависимости от быбранного outlet
+    useEffect(() => {
+        const fetchCameras = async () => {
+            if (!selectedOutlet) {
+                setCameraOptions([]); // Очищаем камеры, если магазин не выбран
+                return;
+            }
 
-    fetchRecords();
-  }, [selectedOutlet, selectedCamera, selectedGroupBy, selectedIndicator, selectedAggregate, selectedHoursFilter]);
+            try {
+                const cameraResponse = await axios.get(`${apiUrl}/cameras/`, {
+                    params: {outlet: selectedOutlet.id},
+                });
+                setCameraOptions(cameraResponse.data);
+            } catch (err) {
+                setError("Не удалось загрузить список камер");
+            }
+        };
 
-  const chartData = Array.isArray(records?.values)
-      ? records.values.map((record) => ({
-        x: record.period, // Группированная дата
-        y: record.value,  // Среднее значение параметра
-      }))
-      : [];
+        fetchCameras();
+    }, [selectedOutlet]);
 
-  return (
-    <>
-      <FlexSpacerContainer>
-        <PageTitle title="Показатели" />
-      </FlexSpacerContainer>
-      <FlexSpacerContainer>
-        <Autocomplete
-            options={outletOptions}
-            getOptionLabel={(option) => option.address}
-            value={selectedOutlet}
-            onChange={(event, newValue) => {setSelectedOutlet(newValue); setSelectedCamera(null);}}
-            renderInput={(params) => <TextField {...params} label="Адрес" />}
-            className={"w-72"}
-        />
-        <Autocomplete
-            options={cameraOptions}
-            getOptionLabel={(option) => option.name}
-            value={selectedCamera}
-            onChange={(event, newValue) => setSelectedCamera(newValue)}
-            renderInput={(params) => <TextField {...params} label="Камера" />}
-            className={"w-72"}
-            disabled={!selectedOutlet}
-        />
-        <Autocomplete
-            options={groupByOptions}
-            getOptionLabel={(option) => option.label}
-            value={groupByOptions.find((option) => option.value === selectedGroupBy)}
-            onChange={(event, newValue) => setSelectedGroupBy(newValue.value)}
-            renderInput={(params) => <TextField {...params} label="Группировать по" />}
-            className={"w-72"}
-        />
-        <Autocomplete
-            options={indicatorOptions}
-            getOptionLabel={(option) => option.label}
-            value={indicatorOptions.find((option) => option.value === selectedIndicator)}
-            onChange={(event, newValue) => setSelectedIndicator(newValue.value)}
-            renderInput={(params) => <TextField {...params} label="Показатели" />}
-            className={"w-72"}
-        />
-        <Autocomplete
-            options={aggregateOptions}
-            getOptionLabel={(option) => option.label}
-            value={aggregateOptions.find((option) => option.value === selectedAggregate)}
-            onChange={(event, newValue) => setSelectedAggregate(newValue.value)}
-            renderInput={(params) => <TextField {...params} label="Тип агрегации" />}
-            className={"w-72"}
-        />
-      </FlexSpacerContainer>
-      <FlexSpacerContainer>
-        <HoursFilter onChange={setSelectedHoursFilter}/>
-      </FlexSpacerContainer>
-      {(!selectedOutlet || !selectedCamera || !selectedGroupBy || !selectedIndicator) ? (
-        <p className="text-center font-bold mt-8">
-          Пожалуйста, выберите все параметры для отображения данных.
-        </p>
-      ) : chartData.length > 0 ? (
-          <ChartData
-              data={chartData}
-              dateRange={dateRange}
-              setDateRange={setDateRange}
-              groupBy={selectedGroupBy}
-              indicatorLabel={indicatorOptions.find((opt) => opt.value === selectedIndicator)?.label}
-          />
-      ) : (
-          <p>Нет данных для отображения. Проверьте параметры фильтрации.</p>
-      )}
-      {selectedOutlet && selectedCamera && (
-          <PivotTable
-              cameraId={selectedCamera.id}
-              indicator={selectedIndicator}
-          />
-      )}
-    </>
-  );
+    // Загружаем данные records с учётом фильтров
+    useEffect(() => {
+        const fetchRecords = async () => {
+            if (!selectedOutlet || !selectedCamera) return;
+
+            try {
+                setLoading(true);
+
+                const params = {
+                    outlet: selectedOutlet.id,
+                    camera: selectedCamera.id,
+                    group_by: selectedGroupBy,
+                    indicator: selectedIndicator,
+                    aggregate_type: selectedAggregate,
+                };
+
+                if (selectedHoursFilter.exclude) {
+                    params.exclude_hour_start = selectedHoursFilter.from;
+                    params.exclude_hour_end = selectedHoursFilter.to;
+                }
+
+                const response = await axios.get(`${apiUrl}/records/aggregates/`, {params});
+                setRecords(response.data);
+                setLoading(false);
+            } catch (err) {
+                setError("Не удалось загрузить записи");
+                setLoading(false);
+            }
+        };
+
+        fetchRecords();
+    }, [selectedOutlet, selectedCamera, selectedGroupBy, selectedIndicator, selectedAggregate, selectedHoursFilter]);
+
+    const chartData = Array.isArray(records?.values)
+        ? records.values.map((record) => ({
+            x: record.period, // Группированная дата
+            y: record.value,  // Среднее значение параметра
+        }))
+        : [];
+
+    return (
+        <>
+            <FlexSpacerContainer>
+                <PageTitle title="Показатели"/>
+            </FlexSpacerContainer>
+            <FlexSpacerContainer>
+                <Autocomplete
+                    options={outletOptions}
+                    getOptionLabel={(option) => option.address}
+                    value={selectedOutlet}
+                    onChange={(event, newValue) => {
+                        setSelectedOutlet(newValue);
+                        setSelectedCamera(null);
+                    }}
+                    renderInput={(params) => <TextField {...params} label="Адрес"/>}
+                    className={"w-72"}
+                />
+                <Autocomplete
+                    options={cameraOptions}
+                    getOptionLabel={(option) => option.name}
+                    value={selectedCamera}
+                    onChange={(event, newValue) => setSelectedCamera(newValue)}
+                    renderInput={(params) => <TextField {...params} label="Камера"/>}
+                    className={"w-72"}
+                    disabled={!selectedOutlet}
+                />
+                <Autocomplete
+                    options={groupByOptions}
+                    getOptionLabel={(option) => option.label}
+                    value={groupByOptions.find((option) => option.value === selectedGroupBy)}
+                    onChange={(event, newValue) => setSelectedGroupBy(newValue.value)}
+                    renderInput={(params) => <TextField {...params} label="Группировать по"/>}
+                    className={"w-72"}
+                />
+                <Autocomplete
+                    options={indicatorOptions}
+                    getOptionLabel={(option) => option.label}
+                    value={indicatorOptions.find((option) => option.value === selectedIndicator)}
+                    onChange={(event, newValue) => setSelectedIndicator(newValue.value)}
+                    renderInput={(params) => <TextField {...params} label="Показатели"/>}
+                    className={"w-72"}
+                />
+                <Autocomplete
+                    options={aggregateOptions}
+                    getOptionLabel={(option) => option.label}
+                    value={aggregateOptions.find((option) => option.value === selectedAggregate)}
+                    onChange={(event, newValue) => setSelectedAggregate(newValue.value)}
+                    renderInput={(params) => <TextField {...params} label="Тип агрегации"/>}
+                    className={"w-72"}
+                />
+            </FlexSpacerContainer>
+            <FlexSpacerContainer>
+                <HoursFilter onChange={setSelectedHoursFilter}/>
+            </FlexSpacerContainer>
+            {(!selectedOutlet || !selectedCamera || !selectedGroupBy || !selectedIndicator) ? (
+                <p className="text-center font-bold mt-8">
+                    Пожалуйста, выберите все параметры для отображения данных.
+                </p>
+            ) : chartData.length > 0 ? (
+                <ChartData
+                    data={chartData}
+                    dateRange={dateRange}
+                    setDateRange={setDateRange}
+                    groupBy={selectedGroupBy}
+                    indicatorLabel={indicatorOptions.find((opt) => opt.value === selectedIndicator)?.label}
+                />
+            ) : (
+                <p>Нет данных для отображения. Проверьте параметры фильтрации.</p>
+            )}
+            {selectedOutlet && selectedCamera && (
+                <>
+                    <FlexSpacerContainer>
+                        <MiddleTitle title={`Таблица показателей по часовым интервалам: ${indicatorOptions.find((opt) => opt.value === selectedIndicator)?.label}`}/>
+                    </FlexSpacerContainer>
+                    <PivotTable
+                        cameraId={selectedCamera.id}
+                        indicator={selectedIndicator}
+                    />
+                </>
+            )}
+        </>
+    );
 };
 
 export default DashboardPage;

@@ -44,10 +44,10 @@ const ChartData = ({ data, dateRange, setDateRange, groupBy, indicatorLabel }) =
                     height={400}
                 />) : (
                 <div className="text-center mt-8">
-                    <p>
+                    <p className="text-center font-bold mt-8">
                         Нет данных для выбранного диапазона дат.
                     </p>
-                    <p>
+                    <p className="text-center font-bold mt-8">
                         Попробуйте изменить параметры фильтрации или выбрать другой период.
                     </p>
                 </div>
