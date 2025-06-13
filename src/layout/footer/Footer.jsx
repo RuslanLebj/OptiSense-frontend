@@ -8,7 +8,7 @@ const Footer = () => {
       {/* <!--Copyright section--> */}
       <div
         className="bg-neutral-100 p-4 text-center text-neutral-700">
-        © 2024 Copyright: 
+        © 2025
         <a className="text-neutral-800"> OptiSense</a>
       </div>
     </footer>
