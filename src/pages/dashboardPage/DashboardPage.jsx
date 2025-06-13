@@ -177,7 +177,9 @@ const DashboardPage = () => {
         <HoursFilter onChange={setSelectedHoursFilter}/>
       </FlexSpacerContainer>
       {(!selectedOutlet || !selectedCamera || !selectedGroupBy || !selectedIndicator) ? (
-          <p>Пожалуйста, выберите все параметры для отображения данных.</p>
+        <p className="text-center font-bold mt-8">
+          Пожалуйста, выберите все параметры для отображения данных.
+        </p>
       ) : chartData.length > 0 ? (
           <ChartData
               data={chartData}
