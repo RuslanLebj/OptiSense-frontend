@@ -125,55 +125,6 @@ const DashboardPage = () => {
       }))
       : [];
 
-const handleCsvExport = async () => {
-  if (!selectedOutlet || !selectedCamera) return;
-
-  const params = {
-    outlet: selectedOutlet.id,
-    camera: selectedCamera.id,
-    group_by: selectedGroupBy,
-    indicator: selectedIndicator,
-    aggregate_type: selectedAggregate,
-  };
-  if (selectedHoursFilter.exclude) {
-    params.exclude_hour_start = selectedHoursFilter.from;
-    params.exclude_hour_end   = selectedHoursFilter.to;
-  }
-
-  try {
-    // корректный вызов GET с params и blob
-    const response = await axios.get(
-      `${apiUrl}/records/hours/aggregates/csv`,
-      { params, responseType: 'blob' }
-    );
-
-    // извлекаем имя файла из заголовка Content-Disposition
-    const cd = response.headers['content-disposition'];
-    let filename = 'aggregates.csv';
-    if (cd) {
-      const match = cd.match(/filename\*?=(?:UTF-8''?)?\"?([^\";]+)\"?/);
-      if (match && match[1]) {
-        filename = decodeURIComponent(match[1]);
-      }
-    }
-
-    // создаём blob и инициируем скачивание
-    const blob = new Blob([response.data], { type: 'text/csv;charset=utf-8;' });
-    const url  = window.URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute('download', filename);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    window.URL.revokeObjectURL(url);
-
-  } catch (err) {
-    console.error('CSV export error', err);
-    alert('Не удалось скачать CSV');
-  }
-};
-
   return (
     <>
       <FlexSpacerContainer>
@@ -224,14 +175,6 @@ const handleCsvExport = async () => {
       </FlexSpacerContainer>
       <FlexSpacerContainer>
         <HoursFilter onChange={setSelectedHoursFilter}/>
-        <Button
-            onClick={handleCsvExport}
-            disabled={!selectedOutlet || !selectedCamera}
-            variant="contained"
-            sx={{ whiteSpace: "nowrap", height: "fit-content", alignSelf: "center" }}
-        >
-          Выгрузить в .csv
-        </Button>
       </FlexSpacerContainer>
       {(!selectedOutlet || !selectedCamera || !selectedGroupBy || !selectedIndicator) ? (
           <p>Пожалуйста, выберите все параметры для отображения данных.</p>
