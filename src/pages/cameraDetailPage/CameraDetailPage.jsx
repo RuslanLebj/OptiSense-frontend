@@ -12,6 +12,7 @@ import CancelButton from '../../components/buttons/CancelButton';
 import ButtonsContainer from '../../components/containers/buttonsContainer/ButtonsContainer';
 import RoiBox from "../../components/roiBox/RoiBox.jsx";
 import CheckboxGroup from "../../components/checkboxGroup/CheckboxGroup.jsx";
+import DetectionHistory from "../../components/detectionHistory/DetectionHistory.jsx";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -20,6 +21,7 @@ const parameterLabels = {
     queue_length: 'Длина очереди',
     service_duration: 'Скорость обслуживания',
 };
+
 
 const CameraDetailPage = () => {
     const {id} = useParams(); // Извлечение ID из URL
@@ -97,6 +99,9 @@ const CameraDetailPage = () => {
         });
     };
 
+    const activeIndicator = Object.keys(formData.indicators_status || {})
+        .find((key) => formData.indicators_status[key]);
+
 
     // if (loading) return <PageTitle title={`Загрузка...`} />;
     if (error) return <PageTitle title={`Error: ${error}`}/>;
@@ -158,6 +163,15 @@ const CameraDetailPage = () => {
                                 }))}/>
                     </div>
                 </FlexSpacerContainer>
+                    {activeIndicator ? (
+                        <DetectionHistory
+                            selectedCamera={id}
+                            indicator={activeIndicator}
+                            label={parameterLabels[activeIndicator] ?? activeIndicator}
+                        />
+                    ) : (
+                        <SmallTitle title="Нет активных индикаторов для истории"/>
+                    )}
             </DetailPageContainer>
         </>
     );
