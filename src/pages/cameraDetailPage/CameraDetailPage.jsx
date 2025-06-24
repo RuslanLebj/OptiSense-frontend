@@ -170,7 +170,7 @@ const CameraDetailPage = () => {
                             label={parameterLabels[activeIndicator] ?? activeIndicator}
                         />
                     ) : (
-                        <SmallTitle title="Нет активных индикаторов для истории"/>
+                        <SmallTitle title="Нет активных отслеживаемых показателей для истории"/>
                     )}
             </DetailPageContainer>
         </>

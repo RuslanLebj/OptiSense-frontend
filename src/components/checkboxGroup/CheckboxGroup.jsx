@@ -22,7 +22,7 @@ const CheckboxGroup = ({ status, thresholds, labels, onChange }) => (
                 <TextField
                     variant="outlined"
                     size="small"
-                    placeholder="Пороговое значение"
+                    label="Пороговое значение"
                     name={param}
                     value={thresholds[param]}
                     onChange={e =>
@@ -30,6 +30,7 @@ const CheckboxGroup = ({ status, thresholds, labels, onChange }) => (
                     }
                     inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
                     disabled={!status[param]}
+                    sx={{ width: '180px' }}
                 />
             </div>
         ))}
